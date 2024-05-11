@@ -1,0 +1,1 @@
+This (hopefully) will be a successful tracker that informs the user of progress made in the Stardew Valley from their save file. This is a personal project.
