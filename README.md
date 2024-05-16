@@ -1,1 +1,1 @@
-This (hopefully) will be a successful tracker that informs the user of progress made in the Stardew Valley from their save file. This is a personal project.
+This (hopefully) will be a successful checklist that informs the user of progress made in the Stardew Valley in their first (game) year from their save file. The checklist sets the player up to complete the community center within the first year of the game. This is a personal project.
