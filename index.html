@@ -3,7 +3,7 @@
 <body>
 <h1>Stardew Valley First Year Checklist</h1>
 <p>This is a personal project. Hopefully, it will help users stay up to date on their first-year progress, assuming they use default bundles.</p>
-<p>Select a save file to check:
+<p>Please select your Stardew save file: 
 <input type="file" id="file_select" /></p>
 
 <output id="out"> </output>
@@ -660,9 +660,12 @@ window.onload = function() {
             }
 
             playerSave.season = $(xmlDoc).find('currentSeason').html();
-            playerSave.name = $(xmlDoc).find('player > name').text();
+            playerSave.name = $(xmlDoc).find('player > name');
             playerSave.year = Number($(xmlDoc).find('year').text());
-            output += '<span class="result">Farmer ' + playerSave.name + '</span><br />\n';
+            output += '<h3>Summary</h3>\n';
+			output += '<span class="result">Farmer ' + $(xmlDoc).find('player > name').text() + ' of '
+				+ $(xmlDoc).find('player > farmName').text() + ' Farm</span><br />\n';
+            output += '<span class="result">Farmer ' + playerSave.name.text() + '</span><br />\n';
 
 			var outElement = document.getElementById('out');
 
