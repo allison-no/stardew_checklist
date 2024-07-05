@@ -1,10 +1,14 @@
-/*
-    Trial project by Allison Okimoto
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+<body>
+<h1>Stardew Valley First Year Checklist</h1>
+<p>This is a personal project. Hopefully, it will help users stay up to date on their first-year progress, assuming they use default bundles.</p>
+<p>Select a save file to check:
+<input type="file" id="file_select" /></p>
 
-    Stardew First Year Checklist
+<output id="out"> </output>
 
-    Started May 11, 2024
-*/
+<script>
 window.onload = function() {
     if (!(window.File && window.FileReader)) {
 		document.getElementById('out').innerHTML = '<span class="error">Fatal Error with API</span>';
@@ -658,15 +662,21 @@ window.onload = function() {
             playerSave.season = $(xmlDoc).find('currentSeason').html();
             playerSave.name = $(xmlDoc).find('player > name').text();
             playerSave.year = Number($(xmlDoc).find('year').text());
+            output += '<span class="result">Farmer ' + playerSave.name + '</span><br />\n';
 
 			var outElement = document.getElementById('out');
 
             // TODO: check if player is using remixed bundles (not supported with checklist)
             // TODO: parse bundle data
             // TODO: present data by season, state whether player is on track based on playerSave.season
-            
+            document.getElementById('out').innerHTML = output;
         };
         reader.readAsText(file);
+        document.getElementById('out').innerHTML = output;
     }
     document.getElementById('file_select').addEventListener('change', fileprocess, false);
 }
+</script>
+
+</body>
+</html>
