@@ -13,7 +13,7 @@ window.onload = function() {
 
     $(document.getElementById('input-container')).show();
 
-    function handleFileSelect(evt) {
+    function fileprocess(evt) {
 		var file = evt.target.files[0];
 		var saveRead = new FileReader();
 
@@ -24,8 +24,8 @@ window.onload = function() {
             var output = "";
             var xmlDoc = $.parseXML(e.target.result);
             var playerSave = "";
-            
 
+            // objects needed for bundle processing see https://github.com/MouseyPounds/stardew-checkup
             playerSave.objects = {
                 '-5': "Egg (Any)",
                 '-6': "Milk (Any)",
@@ -658,11 +658,15 @@ window.onload = function() {
             playerSave.season = $(xmlDoc).find('currentSeason').html();
             playerSave.name = $(xmlDoc).find('player > name').text();
             playerSave.year = Number($(xmlDoc).find('year').text());
-            
+
 			var outElement = document.getElementById('out');
+
+            // TODO: check if player is using remixed bundles (not supported with checklist)
+            // TODO: parse bundle data
+            // TODO: present data by season, state whether player is on track based on playerSave.season
             
         };
         reader.readAsText(file);
     }
-    document.getElementById('file_select').addEventListener('change', handleFileSelect, false);
+    document.getElementById('file_select').addEventListener('change', fileprocess, false);
 }
