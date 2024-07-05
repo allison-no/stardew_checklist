@@ -8,6 +8,7 @@
 
 <output id="out"> </output>
 
+<p> Thanks for visiting!</p>
 <script>
 window.onload = function() {
     if (!(window.File && window.FileReader)) {
@@ -27,13 +28,11 @@ window.onload = function() {
             var playerSave = {};
 
             playerSave.season = $(xmlDoc).find('currentSeason').html();
-            playerSave.name = $(xmlDoc).find('player > name').text;
+            playerSave.name = $(xmlDoc).find('player > name').text();
             playerSave.farmName = $(xmlDoc).find('player > farmName').html();
             playerSave.year = Number($(xmlDoc).find('year').text());
             output += '<h3>Summary</h3>\n';
-            output += '<span class="result">Farmer ' + $(xmlDoc).find('player > name').text() + ' of '
-				+ $(xmlDoc).find('player > farmName').text() + ' Farm</span><br />\n';
-            output += '<span class="result">Hello, ' + playerSave.name + ' of ' + playerSave.farmName+ 'farm!</span><br />\n';
+            output += '<span class="result">Hello, ' + playerSave.name + ' of ' + playerSave.farmName+ ' farm!</span><br />\n';
 
             // TODO: check if player is using remixed bundles (not supported with checklist)
             // TODO: parse bundle data
