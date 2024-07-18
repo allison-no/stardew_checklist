@@ -16,23 +16,449 @@ window.onload = function() {
 		return;
 	}
 
+    function readBundles(saveXML, playerSave) {
+        output = '';
+        defaultBundles = {
+            "Pantry/0": "Spring Crops/O 465 20/24 1 0 188 1 0 190 1 0 192 1 0/0///Spring Crops",
+            "Pantry/1": "Summer Crops/O 621 1/256 1 0 260 1 0 258 1 0 254 1 0/3///Summer Crops",
+            "Pantry/2": "Fall Crops/BO 10 1/270 1 0 272 1 0 276 1 0 280 1 0/2///Fall Crops",
+            "Pantry/3": "Quality Crops/BO 15 1/24 5 2 254 5 2 276 5 2 270 5 2/6/3//Quality Crops",
+            "Pantry/4": "Animal/BO 16 1/186 1 0 182 1 0 174 1 0 438 1 0 440 1 0 442 1 0/4/5//Animal",
+            "Pantry/5": "Artisan/BO 12 1/432 1 0 428 1 0 426 1 0 424 1 0 340 1 0 344 1 0 613 1 0 634 1 0 635 1 0 636 1 0 637 1 0 638 1 0/1/6//Artisan",
+            "Crafts Room/13": "Spring Foraging/O 495 30/16 1 0 18 1 0 20 1 0 22 1 0/0///Spring Foraging",
+            "Crafts Room/14": "Summer Foraging/O 496 30/396 1 0 398 1 0 402 1 0/3///Summer Foraging",
+            "Crafts Room/15": "Fall Foraging/O 497 30/404 1 0 406 1 0 408 1 0 410 1 0/2///Fall Foraging",
+            "Crafts Room/16": "Winter Foraging/O 498 30/412 1 0 414 1 0 416 1 0 418 1 0/6///Winter Foraging",
+            "Crafts Room/17": "Construction/BO 114 1/388 99 0 388 99 0 390 99 0 709 10 0/4///Construction",
+            "Crafts Room/19": "Exotic Foraging/O 235 5/88 1 0 90 1 0 78 1 0 420 1 0 422 1 0 724 1 0 725 1 0 726 1 0 257 1 0/1/5//Exotic Foraging",
+            "Fish Tank/6": "River Fish/O 685 30/145 1 0 143 1 0 706 1 0 699 1 0/6///River Fish",
+            "Fish Tank/7": "Lake Fish/O 687 1/136 1 0 142 1 0 700 1 0 698 1 0/0///Lake Fish",
+            "Fish Tank/8": "Ocean Fish/O 690 5/131 1 0 130 1 0 150 1 0 701 1 0/5///Ocean Fish",
+            "Fish Tank/9": "Night Fishing/R 516 1/140 1 0 132 1 0 148 1 0/1///Night Fishing",
+            "Fish Tank/10": "Specialty Fish/O 242 5/128 1 0 156 1 0 164 1 0 734 1 0/4///Specialty Fish",
+            "Fish Tank/11": "Crab Pot/O 710 3/715 1 0 716 1 0 717 1 0 718 1 0 719 1 0 720 1 0 721 1 0 722 1 0 723 1 0 372 1 0/1/5//Crab Pot",
+            "Boiler Room/20": "Blacksmith's/BO 13 1/334 1 0 335 1 0 336 1 0/2///Blacksmith's",
+            "Boiler Room/21": "Geologist's/O 749 5/80 1 0 86 1 0 84 1 0 82 1 0/1///Geologist's",
+            "Boiler Room/22": "Adventurer's/R 518 1/766 99 0 767 10 0 768 1 0 769 1 0/1/2//Adventurer's",
+            "Vault/23": "2,500g/O 220 3/-1 2500 2500/4///2,500g",
+            "Vault/24": "5,000g/O 369 30/-1 5000 5000/2///5,000g",
+            "Vault/25": "10,000g/BO 9 1/-1 10000 10000/3///10,000g",
+            "Vault/26": "25,000g/BO 21 1/-1 25000 25000/1///25,000g",
+            "Bulletin Board/31": "Chef's/O 221 3/724 1 0 259 1 0 430 1 0 376 1 0 228 1 0 194 1 0/4///Chef's",
+            "Bulletin Board/32": "Field Research/BO 20 1/422 1 0 392 1 0 702 1 0 536 1 0/5///Field Research",
+            "Bulletin Board/33": "Enchanter's/O 336 5/725 1 0 348 1 0 446 1 0 637 1 0/1///Enchanter's",
+            "Bulletin Board/34": "Dye/BO 25 1/420 1 0 397 1 0 421 1 0 444 1 0 62 1 0 266 1 0/6///Dye",
+            "Bulletin Board/35": "Fodder/BO 104 1/262 10 0 178 10 0 613 3 0/3///Fodder",
+            "Abandoned Joja Mart/36": "The Missing//348 1 1 807 1 0 74 1 0 454 5 2 795 1 2 445 1 0/1/5//The Missing"
+		};
+        
+        playerSave.bundles = {}
+
+        return output;
+    }
+
     function fileprocess(evt) {
 		var file = evt.target.files[0];
 		var saveRead = new FileReader();
         var output = "<h2>Results</h2>\n";
-
+        
 		saveRead.onload = function(e) {
             var output = document.getElementById('out').innerHTML;
-            var xmlDoc = $.parseXML(e.target.result);
+            var saveXML = $.parseXML(e.target.result);
             
             var playerSave = {};
 
-            playerSave.season = $(xmlDoc).find('currentSeason').html();
-            playerSave.name = $(xmlDoc).find('player > name').text();
-            playerSave.farmName = $(xmlDoc).find('player > farmName').html();
-            playerSave.year = Number($(xmlDoc).find('year').text());
+            // parse for simple player data
+            playerSave.season = $(saveXML).find('currentSeason').html();
+            playerSave.name = $(saveXML).find('player > name').text();
+            playerSave.farmName = $(saveXML).find('player > farmName').html();
+            playerSave.year = Number($(saveXML).find('year').text());
+            //TODO: fix this make it nicer
             output += '<h3>Summary</h3>\n';
             output += '<span class="result">Hello, ' + playerSave.name + ' of ' + playerSave.farmName+ ' farm!</span><br />\n';
+            
+            // check player is in the first year
+            if (playerSave.year > 1) output += '<span class="result"> Your save is not in its first year. We recommend a different checklist.</span><br />\n';
+
+
+            playerSave.objects = { // organized using standard game item IDs
+                16: "Wild Horseradish",
+                18: "Daffodil",
+                20: "Leek",
+                22: "Dandelion",
+                24: "Parsnip",
+                62: "Aquamarine",
+                78: "Cave Carrot",
+                80: "Quartz",
+                82: "Fire Quartz",
+                84: 'Frozen Tear',
+                86: "Earth Crystal",
+                88: "Coconut",
+                90: "Cactus Fruit",
+                128: "Pufferfish",
+                130: "Tuna",
+                131: "Sardine",
+                132: "Bream",
+                136: "Largemouth Bass",
+                140: "Walleye",
+                142: "Carp",
+                143: "Catfish",
+                145: "Sunfish",
+                148: "Eel",
+                150: "Red Snapper",
+                156: "Ghostfish",
+                164: "Sandfish",
+                174: "Large Egg (White)",
+                178: "Hay",
+                182: "Large Egg (Brown)",
+                186: "Large Milk",
+                188: "Green Bean",
+                190: "Cauliflower",
+                192: "Potato",
+                194: "Fried Egg",
+                228: "Maki Roll",
+                254: "Melon",
+                256: "Tomato",
+                257: "Morel",
+                258: "Blueberry",
+                259: "Fiddlehead Fern",
+                260: "Hot Pepper",
+                262: "Wheat",
+                266: "Red Cabbage",
+                270: "Corn",
+                272: "Eggplant",
+                276: "Pumpkin",
+                280: "Yam",
+                334: "Copper Bar",
+                335: "Iron Bar",
+                336: "Gold Bar",
+                340: "Honey",
+                344: "Jelly",
+                348: "Wine",
+                372: "Clam",
+                376: "Poppy",
+                388: "Wood",
+                390: "Stone",
+                398: "Grape",
+                396: "Spice Berry",
+                397: "Sea Urchin",
+                402: "Sweet Pea",
+                404: "Common Mushroom",
+                406: "Wild Plum",
+                408: "Hazelnut",
+                410: "Blackberry",
+                412: "Winter Root",
+                414: "Crystal Fruit",
+                416: "Snow Yam",
+                418: "Crocus",
+                420: "Red Mushroom",
+                421: "Sunflower",
+                422: "Purple Mushroom",
+                424: "Cheese",
+                426: "Goat Cheese",
+                428: "Cloth",
+                430: "Truffle",
+                432: "Truffle Oil",
+                438: "Large Goat Milk",
+                440: "Wool",
+                442: "Duck Egg",
+                444: "Duck Feather",
+                446: "Rabbit's Foot",
+                536: "Frozen Geode",
+                586: "Nautilus Shell",
+                613: "Apple",
+                634: "Apricot",
+                635: "Orange",
+                636: "Peach",
+                637: "Pomegranate",
+                638: "Cherry",
+                698: "Sturgeon",
+                699: "Tiger Trout",
+                700: "Bullhead",
+                701: "Tilapia",
+                702: "Chub",
+                706: "Shad",
+                709: "Hardwood",
+                715: "Lobster",
+                716: "Crayfish",
+                717: "Crab",
+                718: "Cockle",
+                719: "Mussel",
+                720: "Shrimp",
+                721: "Snail",
+                722: "Periwinkle",
+                723: "Oyster",
+                724: "Maple Syrup",
+                725: "Oak Resin",
+                726: "Pine Tar",
+                734: "Woodskip",
+                766: "Slime",
+                767: "Bat Wing",
+                768: "Solar Essence",
+                769: "Void Essence"
+            }
+
+            playerSave.Bundles = {
+                0: "Spring Crops",
+                1: "Summer Crops",
+                2: "Fall Crops",
+                3: "Quality Crops",
+                4: "Animal",
+                5: "Artisan",
+                6: "Spring Foraging",
+                7: "Summer Foraging",
+                8: "Fall Foraging",
+                9: "Winter Foraging",
+            }
+            
+            // info on each bundle
+            playerSave.SpringCrops = {
+                parsnip: false,
+                green_bean: false,
+                cauliflower: false,
+                potato: false,
+                needed: 4
+            }
+
+            playerSave.SummerCrops = {
+                tomato: false,
+                hot_pepper: false,
+                blueberry: false,
+                melon: false,
+                needed: 4
+            }
+
+            playerSave.FallCrops = {
+                corn: false,
+                eggplant: false,
+                pumpkin: false,
+                yam: false,
+                needed: 4
+            }
+
+            playerSave.QualityCrops = {
+                parsnips: false,
+                melons: false,
+                pumpkins: false,
+                corn: false,
+                needed: 3
+            }
+
+            playerSave.Animal = {
+                large_milk: false,
+                brown_egg: false,
+                white_egg: false,
+                large_goat: false,
+                duck_egg: false,
+                needed: 5
+            }
+
+            playerSave.Artisan = {
+                truffle_oil: false,
+                cloth: false,
+                goat_cheese: false,
+                cheese: false,
+                honey: false,
+                jelly: false,
+                apple: false,
+                apricot: false,
+                orange: false,
+                peach: false,
+                pomegranate: false,
+                cherry: false,
+                needed: 6
+            }
+
+            playerSave.SprForage = {
+                horseradish: false,
+                daffodil: false, 
+                leek: false,
+                dandelion: false,
+                needed: 4
+            }
+
+            playerSave.SumForage = {
+                grape: false,
+                spice_berry: false,
+                sweet_pea: false,
+                needed: 3
+            }
+
+            playerSave.FallForage = {
+                mushroom: false,
+                wild_plum: false,
+                hazelnut: false,
+                blackberry: false,
+                needed: 4
+            }
+
+            playerSave.WinForage = {
+                winter_root: false,
+                crystal_fruit: false,
+                snow_yam: false,
+                crocus: false,
+                needed: 4
+            }
+
+            playerSave.Construction = {
+                wood1: false,
+                wood2: false,
+                stone: false,
+                hardwood: false,
+                needed: 4
+            }
+
+            playerSave.Exotic = {
+                coconut: false,
+                cactus: false,
+                cave_carrot: false,
+                red_mushroom: false,
+                purple_mushroom: false,
+                maple_syrup: false,
+                oak_resin: false,
+                pine_tar: false,
+                morel: false,
+                needed: 5
+            }
+
+            playerSave.RiverFish = {
+                sunfish: false,
+                catfish: false,
+                shad: false,
+                tiger_trout: false,
+                needed: 4
+            }
+
+            playerSave.LakeFish = {
+                largemouth: false,
+                carp: false,
+                bullhead: false,
+                sturgeon: false,
+                needed: 4
+            }
+
+            playerSave.OceanFish = {
+                sardine: false,
+                tuna: false,
+                red_snapper: false,
+                tilapia: false,
+                needed: 4
+            }
+
+            playerSave.NightFish = {
+                walleye: false,
+                bream: false, 
+                eel: false,
+                needed: 3
+            }
+
+            playerSave.CrabPot = {
+                lobster: false,
+                crayfish: false,
+                crab: false,
+                cockle: false,
+                mussel: false,
+                shrimp: false,
+                snail: false,
+                periwinkle: false,
+                oyster: false,
+                clam: false,
+                needed: 5
+            }
+
+            playerSave.SpecialtyFish = {
+                pufferfish: false,
+                ghostfish: false,
+                sandfish: false,
+                woodskip: false,
+                needed: 4
+            }
+
+            playerSave.Blacksmith = {
+                copper_bar: false,
+                iron_bar: false,
+                gold_bar: false,
+                needed: 3
+            }
+
+            playerSave.Geologist = {
+                quartz: false,
+                earth_crystal: false,
+                frozen_tear: false,
+                fire_quartz: false,
+                needed: 4
+            }
+
+            playerSave.Adventurer = {
+                slime: false,
+                bat_wing: false,
+                solar_essence: false,
+                void_essence: false,
+                needed: 2
+            }
+
+            playerSave.one = {
+                one: false,
+                needed: 1
+            }
+
+            playerSave.two = {
+                two: false,
+                needed: 1
+            }
+
+            playerSave.three = {
+                three: false,
+                needed: 1
+            }
+
+            playerSave.four = {
+                four: false,
+                needed: 1
+            }
+
+            playerSave.Chef = {
+                maple_syrup: false,
+                fiddlehead: false,
+                truffle: false,
+                poppy: false,
+                maki_roll: false,
+                fried_egg: false,
+                needed: 6
+            }
+
+            playerSave.Dye = {
+                red_mushroom: false,
+                sea_urchin: false,
+                sunflower: false,
+                duck_feather: false,
+                aquamarine: false,
+                red_cabbage: false,
+                needed: 6
+            }
+
+            playerSave.FieldResearch = {
+                purple_mushroom: false,
+                nautilus_shell: false,
+                chub: false,
+                frozen_geode: false,
+                needed: 4
+            }
+
+            playerSave.Fodder = {
+                wheat: false,
+                hay: false,
+                apple: false,
+                needed: 3
+            }
+
+            playerSave.Enchanter = {
+                oak_resin: false,
+                wine: false,
+                rabbit_foot: false,
+                pomegranate: false,
+                needed: 4
+            }
 
             // TODO: check if player is using remixed bundles (not supported with checklist)
             // TODO: parse bundle data
