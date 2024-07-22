@@ -44,10 +44,26 @@
             </p>
 
             <div class="file_upload">
-                <h2>File Upload</h2>
-                <p>Please select your Stardew Valley save file:</p>
+                <div class="left_file">
+                    <h2>File Upload</h2>
+                    <p>Please select your Stardew Valley save file:</p>
+                    <div style = "display: flex; justify-content: center; margin-top: 50px;">
+                        <input type="file" id="file_select" />
+                    </div>
+                </div>
                 
-                <input type="file" id="file_select" />
+                <div class = "right_file">
+                    Please upload your save file to recieve your checklist. The save file is titled with your farmer's name (or farm name) followed by
+                    your ID number. Please note that your save file is not titled "SaveGameInfo". Checklist may not make sense if you upload a save that uses
+                    remixed bundles: <br> <br>
+                    Format: [name]_[#########] (e.g. JonSnow_123456789) <br>
+                    Default save locations: <br>
+                    <ul>
+                        <li>Windows: %appdata%\StardewValley\Saves</li>
+                        <li>Linux/MacOS: ~/.config/StardewValley/Saves</li>
+                    </ul>
+                    For more information on finding your save file go to <a href="https://stardewvalleywiki.com/Saves">Saves</a>.
+                </div>
             </div>
             <output id="out"> </output>
             <p> Thanks for visiting!</p>

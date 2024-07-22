@@ -22,7 +22,7 @@ window.onload = function() {
     function fileprocess(evt) {
 		var file = evt.target.files[0];
 		var saveRead = new FileReader();
-        var output = "<h2>Results</h2>\n";
+        var output = "";
 
 		saveRead.onload = function(e) {
             var output = document.getElementById('out').innerHTML;
