@@ -1,523 +1,57 @@
-<html>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<body>
-<h1>Stardew Valley First Year Checklist</h1>
-<p>This is a personal project. Hopefully, it will help users stay up to date on their first-year progress, assuming they use default bundles.</p>
-<p>Please select your Stardew save file: 
-<input type="file" id="file_select" /></p>
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="keywords" content="Stardew Valley, Community Center, Checklist">
+        <meta 
+            name="description" 
+            content="Checklist for completing the Community Center in Stardew Valley during the first in-game year using players' save files.">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="./app/css/index.css">
+        <link rel="stylesheet" href="./app/css/menu.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+        <script src="./app/js/checklist.js"></script>
+        <script src="./app/js/sidebar.js"></script>
+        <title>Stardew Checklist</title>
+        <link rel="icon" type="image/x-icon" href="./app/images/favicon.ico">
+    </head>
+    <body>
+        <div id="menu" class="sidenav">
+            <a href="#"><img src="./app/images/favicon.ico" class = "icon"> </a>
+            <a href="#">About</a>
+            <a href="#">Services</a>
+            <a href="#">Clients</a>
+            <a href="#">Contact</a>
+        </div>
 
-<output id="out"> </output>
+        <div id="main">
+            <div class="heading">
+                <a href="#">Stardew Community Center Checklist</a>
+                <a href="#"><img src="./app/images/favicon.ico" class = "icon_heading"> </a>
+                <div class = "menu_button" onclick = "changeIcon(this); openClose(this);">
+                    <div class="bar1"></div>
+                    <div class="bar2"></div>
+                    <div class="bar3"></div>
+                </div>
+            </div>
 
-<p> Thanks for visiting!</p>
-<script>
-window.onload = function() {
-    if (!(window.File && window.FileReader)) {
-		document.getElementById('out').innerHTML = '<span class="error">Fatal Error with API</span>';
-		return;
-	}
+            <p>
+                Welcome! This website checks your <a href="http://stardewvalley.net/">Stardew Valley</a> save file and gives you a checklist for 
+                completing the <a href = "https://stardewvalleywiki.com/Bundles">Community Center bundles</a> in your first year. This checklist
+                will only work with saves using default (not remixed) bundles and is recommended to be used in your first year.<br> <br>
+                
+            </p>
 
-    function readBundles(saveXML, playerSave) {
-        output = '';
-        defaultBundles = {
-            "Pantry/0": "Spring Crops/O 465 20/24 1 0 188 1 0 190 1 0 192 1 0/0///Spring Crops",
-            "Pantry/1": "Summer Crops/O 621 1/256 1 0 260 1 0 258 1 0 254 1 0/3///Summer Crops",
-            "Pantry/2": "Fall Crops/BO 10 1/270 1 0 272 1 0 276 1 0 280 1 0/2///Fall Crops",
-            "Pantry/3": "Quality Crops/BO 15 1/24 5 2 254 5 2 276 5 2 270 5 2/6/3//Quality Crops",
-            "Pantry/4": "Animal/BO 16 1/186 1 0 182 1 0 174 1 0 438 1 0 440 1 0 442 1 0/4/5//Animal",
-            "Pantry/5": "Artisan/BO 12 1/432 1 0 428 1 0 426 1 0 424 1 0 340 1 0 344 1 0 613 1 0 634 1 0 635 1 0 636 1 0 637 1 0 638 1 0/1/6//Artisan",
-            "Crafts Room/13": "Spring Foraging/O 495 30/16 1 0 18 1 0 20 1 0 22 1 0/0///Spring Foraging",
-            "Crafts Room/14": "Summer Foraging/O 496 30/396 1 0 398 1 0 402 1 0/3///Summer Foraging",
-            "Crafts Room/15": "Fall Foraging/O 497 30/404 1 0 406 1 0 408 1 0 410 1 0/2///Fall Foraging",
-            "Crafts Room/16": "Winter Foraging/O 498 30/412 1 0 414 1 0 416 1 0 418 1 0/6///Winter Foraging",
-            "Crafts Room/17": "Construction/BO 114 1/388 99 0 388 99 0 390 99 0 709 10 0/4///Construction",
-            "Crafts Room/19": "Exotic Foraging/O 235 5/88 1 0 90 1 0 78 1 0 420 1 0 422 1 0 724 1 0 725 1 0 726 1 0 257 1 0/1/5//Exotic Foraging",
-            "Fish Tank/6": "River Fish/O 685 30/145 1 0 143 1 0 706 1 0 699 1 0/6///River Fish",
-            "Fish Tank/7": "Lake Fish/O 687 1/136 1 0 142 1 0 700 1 0 698 1 0/0///Lake Fish",
-            "Fish Tank/8": "Ocean Fish/O 690 5/131 1 0 130 1 0 150 1 0 701 1 0/5///Ocean Fish",
-            "Fish Tank/9": "Night Fishing/R 516 1/140 1 0 132 1 0 148 1 0/1///Night Fishing",
-            "Fish Tank/10": "Specialty Fish/O 242 5/128 1 0 156 1 0 164 1 0 734 1 0/4///Specialty Fish",
-            "Fish Tank/11": "Crab Pot/O 710 3/715 1 0 716 1 0 717 1 0 718 1 0 719 1 0 720 1 0 721 1 0 722 1 0 723 1 0 372 1 0/1/5//Crab Pot",
-            "Boiler Room/20": "Blacksmith's/BO 13 1/334 1 0 335 1 0 336 1 0/2///Blacksmith's",
-            "Boiler Room/21": "Geologist's/O 749 5/80 1 0 86 1 0 84 1 0 82 1 0/1///Geologist's",
-            "Boiler Room/22": "Adventurer's/R 518 1/766 99 0 767 10 0 768 1 0 769 1 0/1/2//Adventurer's",
-            "Vault/23": "2,500g/O 220 3/-1 2500 2500/4///2,500g",
-            "Vault/24": "5,000g/O 369 30/-1 5000 5000/2///5,000g",
-            "Vault/25": "10,000g/BO 9 1/-1 10000 10000/3///10,000g",
-            "Vault/26": "25,000g/BO 21 1/-1 25000 25000/1///25,000g",
-            "Bulletin Board/31": "Chef's/O 221 3/724 1 0 259 1 0 430 1 0 376 1 0 228 1 0 194 1 0/4///Chef's",
-            "Bulletin Board/32": "Field Research/BO 20 1/422 1 0 392 1 0 702 1 0 536 1 0/5///Field Research",
-            "Bulletin Board/33": "Enchanter's/O 336 5/725 1 0 348 1 0 446 1 0 637 1 0/1///Enchanter's",
-            "Bulletin Board/34": "Dye/BO 25 1/420 1 0 397 1 0 421 1 0 444 1 0 62 1 0 266 1 0/6///Dye",
-            "Bulletin Board/35": "Fodder/BO 104 1/262 10 0 178 10 0 613 3 0/3///Fodder",
-            "Abandoned Joja Mart/36": "The Missing//348 1 1 807 1 0 74 1 0 454 5 2 795 1 2 445 1 0/1/5//The Missing"
-		};
-
-        bundlesInfo = $(saveXML).find("locations > GameLocation[" + playerSave.ns_prefix + "\\:type='CommunityCenter']");
-        $(bundlesInfo).find('bundles > item').each(function() {
-            bundleNum = $(this).find('key > int').text();
-            $(this).find('ArrayOfBoolean > boolean').each(function () {
-                var i = 1;
-				if ($(this).text() === 'true') {
-					playerSave.Bundles[bundleNum][i].completed = true;
-				}
-				i++;
-			});
-        });
-
-        return output;
-    }
-
-    function fileprocess(evt) {
-		var file = evt.target.files[0];
-		var saveRead = new FileReader();
-        var output = "<h2>Results</h2>\n";
+            <div class="file_upload">
+                <h2>File Upload</h2>
+                <p>Please select your Stardew Valley save file:</p>
+                
+                <input type="file" id="file_select" />
+            </div>
+            <output id="out"> </output>
+            <p> Thanks for visiting!</p>
+        </div>
         
-		saveRead.onload = function(e) {
-            var output = document.getElementById('out').innerHTML;
-            var saveXML = $.parseXML(e.target.result);
-            
-            var playerSave = {};
-
-            // parse for simple player data
-            playerSave.ns_prefix = ($(saveXML).find('SaveGame[xmlns\\:xsi]').length > 0) ? 'xsi': 'p3';
-            playerSave.season = $(saveXML).find('currentSeason').html();
-            playerSave.name = $(saveXML).find('player > name').text();
-            playerSave.farmName = $(saveXML).find('player > farmName').html();
-            playerSave.year = Number($(saveXML).find('year').text());
-            //TODO: fix this make it nicer
-            output += '<h3>Summary</h3>\n';
-            output += '<span class="result">Hello, ' + playerSave.name + ' of ' + playerSave.farmName+ ' farm!</span><br />\n';
-            
-            // check player is in the first year
-            if (playerSave.year > 1) output += '<span class="result"> Your save is not in its first year. We recommend a different checklist.</span><br />\n';
-
-
-            playerSave.objects = { // organized using standard game item IDs
-                16: "Wild Horseradish",
-                18: "Daffodil",
-                20: "Leek",
-                22: "Dandelion",
-                24: "Parsnip",
-                62: "Aquamarine",
-                78: "Cave Carrot",
-                80: "Quartz",
-                82: "Fire Quartz",
-                84: 'Frozen Tear',
-                86: "Earth Crystal",
-                88: "Coconut",
-                90: "Cactus Fruit",
-                128: "Pufferfish",
-                130: "Tuna",
-                131: "Sardine",
-                132: "Bream",
-                136: "Largemouth Bass",
-                140: "Walleye",
-                142: "Carp",
-                143: "Catfish",
-                145: "Sunfish",
-                148: "Eel",
-                150: "Red Snapper",
-                156: "Ghostfish",
-                164: "Sandfish",
-                174: "Large Egg (White)",
-                178: "Hay",
-                182: "Large Egg (Brown)",
-                186: "Large Milk",
-                188: "Green Bean",
-                190: "Cauliflower",
-                192: "Potato",
-                194: "Fried Egg",
-                228: "Maki Roll",
-                254: "Melon",
-                256: "Tomato",
-                257: "Morel",
-                258: "Blueberry",
-                259: "Fiddlehead Fern",
-                260: "Hot Pepper",
-                262: "Wheat",
-                266: "Red Cabbage",
-                270: "Corn",
-                272: "Eggplant",
-                276: "Pumpkin",
-                280: "Yam",
-                334: "Copper Bar",
-                335: "Iron Bar",
-                336: "Gold Bar",
-                340: "Honey",
-                344: "Jelly",
-                348: "Wine",
-                372: "Clam",
-                376: "Poppy",
-                388: "Wood",
-                390: "Stone",
-                398: "Grape",
-                396: "Spice Berry",
-                397: "Sea Urchin",
-                402: "Sweet Pea",
-                404: "Common Mushroom",
-                406: "Wild Plum",
-                408: "Hazelnut",
-                410: "Blackberry",
-                412: "Winter Root",
-                414: "Crystal Fruit",
-                416: "Snow Yam",
-                418: "Crocus",
-                420: "Red Mushroom",
-                421: "Sunflower",
-                422: "Purple Mushroom",
-                424: "Cheese",
-                426: "Goat Cheese",
-                428: "Cloth",
-                430: "Truffle",
-                432: "Truffle Oil",
-                438: "Large Goat Milk",
-                440: "Wool",
-                442: "Duck Egg",
-                444: "Duck Feather",
-                446: "Rabbit's Foot",
-                536: "Frozen Geode",
-                586: "Nautilus Shell",
-                613: "Apple",
-                634: "Apricot",
-                635: "Orange",
-                636: "Peach",
-                637: "Pomegranate",
-                638: "Cherry",
-                698: "Sturgeon",
-                699: "Tiger Trout",
-                700: "Bullhead",
-                701: "Tilapia",
-                702: "Chub",
-                706: "Shad",
-                709: "Hardwood",
-                715: "Lobster",
-                716: "Crayfish",
-                717: "Crab",
-                718: "Cockle",
-                719: "Mussel",
-                720: "Shrimp",
-                721: "Snail",
-                722: "Periwinkle",
-                723: "Oyster",
-                724: "Maple Syrup",
-                725: "Oak Resin",
-                726: "Pine Tar",
-                734: "Woodskip",
-                766: "Slime",
-                767: "Bat Wing",
-                768: "Solar Essence",
-                769: "Void Essence"
-            }
-
-            playerSave.Bundles = {
-                0: "Spring Crops",
-                1: "Summer Crops",
-                2: "Fall Crops",
-                3: "Quality Crops",
-                4: "Animal",
-                5: "Artisan",
-                6: "River Fish",
-                7: "Lake Fish",
-                8: "Ocean Fish",
-                9: "Night Fishing",
-                10: "Specialty Fish",
-                11: "Crab Pot",
-                13: "Spring Foraging",
-                14: "Summer Foraging",
-                15: "Fall Foraging",
-                16: "Winter Foraging",
-                17: "Construction",
-                19: "Exotic Foraging",
-                20: "Blacksmith's",
-                21: "Geologist's",
-                22: "Adventurer's",
-                23: "2,500g",
-                24: "5,000g",
-                25: "10,000g",
-                26: "25,000g",
-                31: "Chef's",
-                32: "Field Research",
-                33: "Enchanter's",
-                34: "Dye",
-                35: "Fodder"
-            }
-            
-            // info on each bundle, bundle numbers assigned by save file default
-            playerSave.Bundles[0] = [
-                {needed: 4},
-                {id: 24, completed: false},
-                {id:188, completed: false},
-                {id: 190, completed: false},
-                {id:192, completed: false}
-            ] // Spring Crops
-
-            playerSave.Bundles[1] = [
-                {needed: 4},
-                {id: 256, completed: false},
-                {id: 260, completed: false},
-                {id: 258, completed: false},
-                {id: 254, completed: false}
-            ] // Summer Crops
-
-            playerSave.Bundles[2] = [
-                {needed: 4},
-                {id: 270, completed: false},
-                {id: 272, completed: false},
-                {id: 276, completed: false},
-                {id: 280, completed: false}
-            ] // Fall Crops
-
-            playerSave.Bundles[3] = [
-                {needed: 3},
-                {id: 24, completed: false},
-                {id: 254, completed: false},
-                {id: 276, completed: false},
-                {id: 270, completed: false}
-            ] // Quality Crops
-
-            playerSave.Bundles[4] = [
-                {needed: 5},
-                {id: 186, completed: false},
-                {id: 182, completed: false},
-                {id: 174, completed: false},
-                {id: 438, completed: false},
-                {id: 440, completed: false}
-            ] // Animal
-
-            playerSave.Bundles[5] = [
-                {needed: 6},
-                {id: 432, completed: false},
-                {id: 428, completed: false},
-                {id: 426, completed: false},
-                {id: 424, completed: false},
-                {id: 340, completed: false},
-                {id: 344, completed: false},
-                {id: 613, completed: false},
-                {id: 634, completed: false},
-                {id: 635, completed: false},
-                {id: 636, completed: false},
-                {id: 637, completed: false},
-                {id: 638, completed: false}
-            ] // Artisan
-
-            playerSave.Bundles[6] = [
-                {needed: 4},
-                {id: 145, completed: false},
-                {id: 143, completed: false},
-                {id: 706, completed: false},
-                {id: 699, completed: false}
-            ] // River Fish
-
-            playerSave.Bundles[7] = [
-                {needed: 4},
-                {id: 136, completed: false},
-                {id: 142, completed: false},
-                {id: 700, completed: false},
-                {id: 698, completed: false}
-            ] // Lake Fish
-
-            playerSave.Bundles[8] = [
-                {needed: 4},
-                {id: 131, completed: false},
-                {id: 130, completed: false},
-                {id: 150, completed: false},
-                {id: 701, completed: false}
-            ] // Ocean Fish
-
-            playerSave.Bundles[9] = [
-                {needed: 3},
-                {id: 140, completed: false},
-                {id: 132, completed: false}, 
-                {id: 148, completed: false}
-            ] // Night Fishing
-
-            playerSave.Bundles[10] = [
-                {needed: 4},
-                {id: 128, completed: false},
-                {id: 156, completed: false},
-                {id: 164, completed: false},
-                {id: 734, completed: false}
-            ] // Specialty Fish
-
-            playerSave.Bundles[11] = [
-                {needed: 5},
-                {id: 715, completed: false},
-                {id: 716, completed: false},
-                {id: 717, completed: false},
-                {id: 718, completed: false},
-                {id: 719, completed: false},
-                {id: 720, completed: false},
-                {id: 721, completed: false},
-                {id: 722, completed: false},
-                {id: 723, completed: false},
-                {id: 372, completed: false}
-            ] // Crab Pot
-
-            playerSave.Bundles[13] = [
-                {needed: 4},
-                {id: 16, completed: false},
-                {id: 18, completed: false}, 
-                {id: 20, completed: false},
-                {id: 22, completed: false}
-            ] // Spring Foraging
-
-            playerSave.Bundles[14] = [
-                {needed: 3},
-                {id: 396, completed: false},
-                {id: 398, completed: false},
-                {id: 402, completed: false}
-            ] // Summer Foraging
-
-            playerSave.Bundles[15] = [
-                {needed: 4},
-                {id: 404, completed: false},
-                {id: 406, completed: false},
-                {id: 408, completed: false},
-                {id: 410, completed: false}
-            ] // Fall Foraging
-
-            playerSave.Bundles[16] = [
-                {needed: 4},
-                {id: 412, completed: false},
-                {id: 414, completed: false},
-                {id: 416, completed: false},
-                {id: 418, completed: false}
-            ] // Winter Foraging
-
-            playerSave.Bundles[17] = [
-                {needed: 4},
-                {id: 388, completed: false},
-                {id: 388, completed: false},
-                {id: 390, completed: false},
-                {id: 709, completed: false}
-            ] // Construction
-
-            playerSave.Bundles[19] = [
-                {needed: 5},
-                {id: 88, completed: false},
-                {id: 90, completed: false},
-                {id: 78, completed: false},
-                {id: 420, completed: false},
-                {id: 422, completed: false},
-                {id: 724, completed: false},
-                {id: 725, completed: false},
-                {id: 726, completed: false},
-                {id: 257, completed: false}
-            ] // Exotic Foraging
-
-            playerSave.Bundles[20] = [
-                {needed: 3},
-                {id: 334, completed: false},
-                {id: 335, completed: false},
-                {id: 336, completed: false}
-            ] // Blacksmith's
-
-            playerSave.Bundles[21] = [
-                {needed: 4},
-                {id: 80, completed: false},
-                {id: 86, completed: false},
-                {id: 84, completed: false},
-                {id: 82, completed: false}
-            ] // Geologist's
-
-            playerSave.Bundles[22] = [
-                {needed: 2},
-                {id: 766, completed: false},
-                {id: 767, completed: false},
-                {id: 768, completed: false},
-                {id: 769, completed: false}
-            ] // Adventurer's
-
-            playerSave.Bundles[23] = [
-                {needed: 1},
-                {id: -1, completed: false}
-            ] // 2,500g
-
-            playerSave.Bundles[24] = [
-                {needed: 1},
-                {id: -1, completed: false}
-            ] // 5,000g
-
-            playerSave.Bundles[25] = [
-                {needed: 1},
-                {id: -1, completed: false}
-            ] // 10,000g
-
-            playerSave.Bundles[26] = [
-                {needed: 1},
-                {id: -1, completed: false}
-            ] // 25,000g
-
-            playerSave.Bundles[31] = [
-                {needed: 6},
-                {id: 724, completed: false},
-                {id: 259, completed: false},
-                {id: 430, completed: false},
-                {id: 376, completed: false},
-                {id: 228, completed: false},
-                {id: 194, completed: false}
-            ] // Chef's
-
-            playerSave.Bundles[32] = [
-                {needed: 4},
-                {id: 422, completed: false},
-                {id: 392, completed: false},
-                {id: 702, completed: false},
-                {id: 536, completed: false}
-            ] // Field Research
-
-            playerSave.Bundles[33] = [
-                {needed: 4},
-                {id: 725, completed: false},
-                {id: 348, completed: false},
-                {id: 446, completed: false},
-                {id: 637, completed: false}
-            ] // Enchanter's
-
-            playerSave.Bundles[34] = [
-                {needed: 6},
-                {id: 420, completed: false},
-                {id: 397, completed: false},
-                {id: 421, completed: false},
-                {id: 444, completed: false},
-                {id: 62, completed: false},
-                {id: 266, completed: false}
-            ]// Dye
-
-            playerSave.Bundles[35] = [
-                {needed: 3},
-                {id: 262, completed: false},
-                {id: 178, completed: false},
-                {id: 613, completed: false}
-            ] // Fodder
-
-            playerSave.Bundles[36] = [
-                {needed: 5},
-                {id: 348, completed: false},
-                {id: 807, completed: false},
-                {id: 74, completed: false},
-                {id: 454, completed: false},
-                {id: 795, completed: false},
-                {id: 445, completed: false}
-            ] // Abandoned Joja Mart (not used, but needed for easy parsing)
-
-            readBundles(saveXML, playerSave);
-
-            // TODO: present data by season, state whether player is on track based on playerSave.season
-            if (playerSave.season === "spring") {
-                if (!playerSave.Bundles[0][1].completed) output += '<span class="spring">You need, ' + playerSave.objects[playerSave.Bundles[0][1].id] +'</span><br />\n';
-            }
-
-            // TODO: check if player is using remixed bundles (not supported with checklist)
-            // TODO: parse bundle data
-            document.getElementById('out').innerHTML = output;
-        };
-        saveRead.readAsText(file);
-        document.getElementById('out').innerHTML = output;
-    }
-    document.getElementById('file_select').addEventListener('change', fileprocess, false);
-}
-</script>
-
-</body>
+    </body>
 </html>
