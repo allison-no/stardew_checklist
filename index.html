@@ -29,18 +29,20 @@
             <div class="heading">
                 <a href="#">Stardew Community Center Checklist</a>
                 <a href="#"><img src="./app/images/favicon.ico" class = "icon_heading"> </a>
-                <div class = "menu_button" onclick = "changeIcon(this); openClose(this);">
-                    <div class="bar1"></div>
-                    <div class="bar2"></div>
-                    <div class="bar3"></div>
+                <div class = "icons">
+                    <a href="https://github.com/allison-no/stardew_checklist"> <img src="./app/images/github.png" class = "github"> </a>
+                    <div class = "menu_button" onclick = "changeIcon(this); openClose(this);">
+                        <div class="bar1"></div>
+                        <div class="bar2"></div>
+                        <div class="bar3"></div>
+                    </div>
                 </div>
             </div>
 
             <p>
                 Welcome! This website checks your <a href="http://stardewvalley.net/">Stardew Valley</a> save file and gives you a checklist for 
                 completing the <a href = "https://stardewvalleywiki.com/Bundles">Community Center bundles</a> in your first year. This checklist
-                will only work with saves using default (not remixed) bundles and is recommended to be used in your first year.<br> <br>
-                
+                will only work with saves using default (not remixed) bundles and is recommended to be used in your first year. See notes for more information.
             </p>
 
             <div class="file_upload">
@@ -53,8 +55,9 @@
                 </div>
                 
                 <div class = "right_file">
-                    Please upload your save file to recieve your checklist. The save file is titled with your farmer's name (or farm name) followed by
-                    your ID number. Please note that your save file is not titled "SaveGameInfo". Checklist may not make sense if you upload a save that uses
+                    Please upload your save file to recieve your checklist. The save file is titled with your 
+                    farmer's name (or farm name) followed by your ID number. Please note that your save file 
+                    is not titled "SaveGameInfo". Checklist may not make sense if you upload a save that uses
                     remixed bundles: <br> <br>
                     Format: [name]_[#########] (e.g. JonSnow_123456789) <br>
                     Default save locations: <br>
@@ -66,7 +69,24 @@
                 </div>
             </div>
             <output id="out"> </output>
-            <p> Thanks for visiting!</p>
+            <p> 
+                Notes: <br>
+                <ul>
+                    <li>Although recommended for use in player's first year, the checklist will continue to 
+                        update if items are missed. For example, if a carp is not caught in Spring of Year 1, 
+                        it will appear again in Summer and Fall until completed. </li>
+                    <li>Credit for creating this checklist goes to <a href ="https://www.youtube.com/@salmence100">
+                        Salmence</a> on YouTube.
+                    </li>
+                    <li>Fish that can be caught in every season will not appear in the "This Month" section.</li>
+                </ul>
+            </p>
+            <p>Thanks for visiting!</p>
+            <div class = "footer">
+                Last updated July 2024 by <a href="https://github.com/allison-no">allison-no</a><br>
+                Stardew Valley and all Stardew Valley images were developed by <a href="https://twitter.com/ConcernedApe">ConcernedApe</a>.
+            </div>
+            </div>
         </div>
         
     </body>

@@ -7,14 +7,14 @@ body {
     max-width: 1000px;
 }
 
-p {
-    margin-left: 20px;
-    margin-right: 20px;
-}
-
-p a {
+a {
     text-decoration: none;
     color: dodgerblue;
+}
+
+p {
+    margin: 0px 20px 0px 20px;
+    word-wrap: break-word;
 }
 
 h2 {
@@ -44,19 +44,30 @@ h2 {
     display: none;
 }
 
+.icons {
+    display: flex;
+    flex-direction: row;
+}
+
+.github {
+    width: 25px;
+    padding-top: 7px;
+}
+
 .menu_button {
-    margin: 10px 20px 20px 20px;
-    width: 30px;
+    margin: 10px 20px 20px 10px;
+    width: 28px;
     cursor: pointer;
     align-items: center;
     justify-items: center;
+    padding-top: 2px;
 }
 
 .bar1, .bar2, .bar3 {
-    width: 15px;
+    width: 14px;
     height: 3px;
     background-color: gray;
-    margin: 3px;
+    margin: 3px 7px;
     transition: 0.4s;
 }
 
@@ -92,11 +103,6 @@ h2 {
     padding: 20px 20px 20px 50px;
 }
 
-.right_file a {
-    text-decoration: none;
-    color: dodgerblue;
-}
-
 input::file-selector-button {
     font-weight: bold;
     color: dodgerblue;
@@ -106,12 +112,79 @@ input::file-selector-button {
     cursor: pointer;
 }
 
+/* card css */
+.summary {
+    display: block;
+    margin-left: 20px;
+    margin-right: 20px;
+    border: 1px solid lightgray;
+    border-radius: 5px;
+}
+
+.summary p {
+    text-align: center;
+    margin-left: 20px;
+    margin-right: 20px;
+    word-wrap: break-word;
+}
+
+.summary .img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 20px;
+}
+
+.spring {
+    display: block;
+    margin-left: 20px;
+    margin-right: 20px;
+    border: 1px solid lightgray;
+    border-radius: 5px;
+}
+
+.spring h2 {
+    margin-bottom: 0px;
+}
+
+.spring p {
+    margin-top: 0px;
+}
+
+#grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    margin: 0px 20px 20px 20px;
+}
+
+.box {
+    margin-top: 10px;
+    font-size: 10px;
+    width: 75px;
+    height: 85px;
+    text-align: center;
+}
+
+.box .not_done {
+    -webkit-filter: grayscale(100%); /* Safari 6.0 - 9.0 */
+    filter: grayscale(100%);
+}
+
+/* footer css */
+
+.footer {
+    display: block;
+    text-align: center;
+    font-size: 10px;
+}
+
 #main {
     transition: margin-left .5s;
 }
 
 /* smaller screen css */
-@media screen and (max-width: 675px) {
+@media screen and (max-width: 727px) {
     .heading a:first-child {display: none;}
     .heading .icon_heading {
         float: left;
