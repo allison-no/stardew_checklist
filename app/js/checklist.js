@@ -10,7 +10,6 @@ window.onload = function() {
     }
 
     function readBundles(saveXML, playerSave) {
-        //bundlesInfo = $(saveXML).find("locations > GameLocation[" + playerSave.ns_prefix + "\\:type='CommunityCenter']");
         var i;
         $(saveXML).find('bundles > item').each(function() {
             bundleNum = $(this).find('key > int').text();
@@ -26,55 +25,364 @@ window.onload = function() {
         });
     }
 
+    function readBuildings(saveXML, playerSave) {
+        var type = "";
+        $(saveXML).find("[" + playerSave.xsiOrp3 + "\\:type='Farm'] Building").each( function() {
+            type = ($(this).find('buildingType')).text();
+            if (type === "Coop" || type === "Big Coop" || type === "Deluxe Coop") {
+                if (playerSave.buildings["coop"] === 0) playerSave.buildings["coop"] = playerSave.buildings[type];
+                else if (type === "Deluxe Coop") playerSave.buildings["coop"] = playerSave.buildings[type];
+                else if (type === "Big Coop" && playerSave.buildings["coop"] === 1) playerSave.buildings["coop"] = playerSave.buildings[type];;
+            }
+            else if (type === "Barn" || type === "Big Barn" || type === "Deluxe Barn") {
+                if (playerSave.buildings["barn"] === 0) playerSave.buildings["barn"] = playerSave.buildings[type];
+                else if (type === "Deluxe Barn") playerSave.buildings["barn"] = playerSave.buildings[type];
+                else if (type === "Big Barn" && playerSave.buildings["barn"] === 1) playerSave.buildings["barn"] = playerSave.buildings[type];
+            }
+        });
+    }
+
     function sum(playerSave) {
         output = "";
-        output += '<div class="summary">';
+        output += '<div class="summary" id="sum">';
         output += '<h2>Summary</h2>';
         output += '<p>Hello, ' + cap(playerSave.name) + ' of ' + cap(playerSave.farmName) + ' farm!'
         output += '<br>Day ' + playerSave.day + ' of ' + cap(playerSave.season) +'</p>'
         output += '<img src="./app/images/' +playerSave.season + '.png" class = "img"">'
         //var percent = 110 - playerSave.itemsLeft / 110;
         //output += '<div id="progress_bar"> <div id="bar">' + playerSave.Bundles[0][0].have + '%</div></div>';
-        output += '</div><br />\n';
+        output += '</div>';
         //output += <div class = "progress-bar"></div>
         return output;
     }
 
-    function springCard(playerSave) {
+    function springCard(playerSave, heading) {
         output = "";
-        output += '<div class = "spring">';
-        output += '<h2>This Month</h2> <p>Farming and Foraging:</p>';
-        output += '<div id="grid">'
+        output += '<h2>' + heading + '</h2> <p>Farming and Foraging:</p> <div id="grid">'
         for (let i = 0; i < 7; ++i) { //TODO: add links to wiki CHANGE TO 8
             output += '<div class="box">'
             var index = playerSave.springFarm[i];
             output += '<img src="./app/images/' + index.id + '_img.png"';
             if (playerSave.Bundles[index.bundle][index.ex].completed == false) {
-                output += '>'
+                output += 'class = "not_done">'
+                output += '<br>' + playerSave.objects[index.id] + '</div>';
             }
-            else output += 'class = "not_done">';
-            output += '<br>' + playerSave.objects[index.id] + '</div>';
+            else {
+                output += 'class = "done">';
+                output += '<br><p>' + playerSave.objects[index.id] + '</p></div>';
+            }
+            
         }
         output += '</div>';
+
         output += '<p>Fishing:</p><div id="grid">';
-        for (let i = 0; i < 6; ++i) { //TODO: add links to wiki CHANGE TO 8
+        for (let i = 0; i < 6; ++i) { 
             output += '<div class="box">'
             var index = playerSave.springFish[i];
             output += '<img src="./app/images/' + index.id + '_img.png"';
             if (playerSave.Bundles[index.bundle][index.ex].completed == false) {
-                output += '>'
+                output += 'class = "not_done">'
+                output += '<br>' + playerSave.objects[index.id] + '</div>';
             }
-            else output += 'class = "not_done">';
-            output += '<br>' + playerSave.objects[index.id] + '</div>';
+            else {
+                output += 'class = "done">';
+                output += '<br><p>' + playerSave.objects[index.id] + '</p></div>';
+            }
         }
         output += '</div>';
-        // output += '<p>Other:</p> <div id = "grid">';
-        // if (playerSave.year > 1) {
-        //     output += '<div class="box">';
-        //     if (playerSave)
-        // }
-        // output += '</div>';
-        output += '</div><br />\n';
+
+        output += '<p>Other:</p> <div id = "grid">';
+        // axe
+        if (playerSave.axe == 0) {
+            output += '<div class="box"> <img src="./app/images/axe1_img.png" class = "not_done"> <br>';
+            output += playerSave.objects['axe1'] + '</div>';
+        }
+        else {
+            output += '<div class="box"> <img src="./app/images/axe1_img.png" class = "done"> <br>';
+            output += '<p>' +playerSave.objects['axe1'] + '</p></div>';
+        }
+        // pickaxe
+        if (playerSave.pickaxe == 0) {
+            output += '<div class="box"> <img src="./app/images/pickaxe1_img.png" class = "not_done"> <br>';
+            output += playerSave.objects['pickaxe1'] + '</div>';
+        }
+        else {
+            output += '<div class="box"> <img src="./app/images/pickaxe1_img.png" class = "done"> <br>';
+            output += '<p>' + playerSave.objects['pickaxe1'] + '</p></div>';
+        }
+        // coop
+        if (playerSave.buildings["coop"] == 0) {
+            output += '<div class="box"> <img src="./app/images/coop1_img.png" class = "not_done"> <br>';
+            output += playerSave.objects['coop1'] + '</div>';
+        }
+        else {
+            output += '<div class="box"> <img src="./app/images/coop1_img.png" class = "done"> <br>';
+            output += '<p>' + playerSave.objects['coop1'] + '</p></div>';
+        }
+        // barn
+        if (playerSave.buildings["barn"] == 0) {
+            output += '<div class="box"> <img src="./app/images/barn1_img.png" class = "not_done"> <br>';
+            output += playerSave.objects['barn1'] + '</div>';
+        }
+        else {
+            output += '<div class="box"> <img src="./app/images/barn1_img.png" class = "done"> <br>';
+            output += '<p>' + playerSave.objects['barn1'] + '</p></div>';
+        }
+        output += '</div>';
+        return output;
+    }
+
+    function summerCard(playerSave, heading, full) {
+        output = "";
+        output += '<h2>' + heading + '</h2> <p>Farming and Foraging:</p> <div id="grid">'
+        for (let i = 0; i < 12; ++i) {//12
+            output += '<div class="box">'
+            var index = playerSave.summerFarm[i];
+            output += '<img src="./app/images/' + index.id + '_img.png"';
+            if (playerSave.Bundles[index.bundle][index.ex].completed == false) {
+                output += 'class = "not_done">'
+                output += '<br>' + playerSave.objects[index.id] + '</div>';
+            }
+            else {
+                output += 'class = "done">';
+                output += '<br><p>' + playerSave.objects[index.id] + '</p></div>';
+            }
+        }
+        output += '</div>';
+
+        output += '<p>Fishing:</p><div id="grid">';
+        for (let i = 0; i < 7; ++i) { //7
+            var index = playerSave.summerFish[i];
+            if (index.first || (!index.first && playerSave.Bundles[index.bundle][index.ex].completed == false && !full)) {
+                output += '<div class="box">'
+                output += '<img src="./app/images/' + index.id + '_img.png"';
+                if (playerSave.Bundles[index.bundle][index.ex].completed == false) {
+                    output += 'class = "not_done">'
+                    output += '<br>' + playerSave.objects[index.id] + '</div>';
+                }
+                else {
+                    output += 'class = "done">';
+                    output += '<br><p>' + playerSave.objects[index.id] + '</p></div>';
+                }
+            }
+        }
+        output += '</div>';
+
+        output += '<p>Other:</p> <div id = "grid">';
+        // axe
+        if (full && playerSave.axe < 2) {
+            output += '<div class="box"> <img src="./app/images/axe2_img.png" class = "not_done"> <br>';
+            output += playerSave.objects['axe2'] + '</div>';
+        }
+        else if (playerSave.axe < 2) {
+            output += '<div class="box"> <img src="./app/images/axe'+ (playerSave.axe + 1) +'_img.png" class = "not_done"> <br>';
+            output += playerSave.objects['axe' + (playerSave.axe + 1)] + '</div>';
+        }
+        else {
+            output += '<div class="box"> <img src="./app/images/axe2_img.png" class = "done"> <br>';
+            output += '<p>' + playerSave.objects['axe2'] + '</p></div>';
+        }
+        // pickaxe
+        if (full && playerSave.pickaxe < 2) {
+            output += '<div class="box"> <img src="./app/images/pickaxe2_img.png" class = "not_done"> <br>';
+            output += playerSave.objects['pickaxe2'] + '</div>';
+        }
+        else if (playerSave.pickaxe < 2) {
+            output += '<div class="box"> <img src="./app/images/pickaxe'+ (playerSave.pickaxe + 1) +'_img.png" class = "not_done"> <br>';
+            output += playerSave.objects['pickaxe' + (playerSave.pickaxe + 1) ] + '</div>';
+        }
+        else {
+            output += '<div class="box"> <img src="./app/images/pickaxe2_img.png" class = "done"> <br>';
+            output += '<p>' + playerSave.objects['pickaxe2'] + '</p></div>';
+        }
+        // coop
+        if (full && playerSave.buildings["coop"] < 2) {
+            output += '<div class="box"> <img src="./app/images/coop2_img.png" class = "not_done"> <br>';
+            output += playerSave.objects['coop2'] + '</div>';
+        }
+        else if (playerSave.buildings["coop"] < 2) {
+            output += '<div class="box"> <img src="./app/images/coop' + (playerSave.buildings["coop"] + 1) + '_img.png" class = "not_done"> <br>';
+            output += playerSave.objects['coop' + (playerSave.buildings["coop"] + 1)] + '</div>';
+        }
+        else {
+            output += '<div class="box"> <img src="./app/images/coop2_img.png" class = "done"> <br>';
+            output +='<p>' + playerSave.objects['coop2'] + '</p></div>';
+        }
+        // barn
+        if (full && playerSave.buildings["barn"] < 2) {
+            output += '<div class="box"> <img src="./app/images/barn2_img.png" class = "not_done"> <br>';
+            output += playerSave.objects['barn2'] + '</div>';
+        }
+        else if (playerSave.buildings["barn"] < 2) {
+            output += '<div class="box"> <img src="./app/images/barn' + (playerSave.buildings["barn"] + 1) + '_img.png" class = "not_done"> <br>';
+            output += playerSave.objects['barn' + (playerSave.buildings["barn"] + 1)] + '</div>';
+        }
+        else {
+            output += '<div class="box"> <img src="./app/images/barn2_img.png" class = "done"> <br>';
+            output += '<p>'+ playerSave.objects['barn2'] + '</p></div>';
+        }
+        output += '</div>';
+        return output;
+    }
+
+    function fallCard(playerSave, heading, full) {
+        output = "";
+        output += '<h2>' + heading + '</h2> <p>Farming and Foraging:</p> <div id="grid">'
+        for (let i = 0; i < 12; ++i) {
+            output += '<div class="box">'
+            var index = playerSave.fallFarm[i];
+            output += '<img src="./app/images/' + index.id + '_img.png"';
+            if (playerSave.Bundles[index.bundle][index.ex].completed == false) {
+                output += 'class = "not_done">'
+                if (index.id == 613) output += '<br>' + playerSave.objects[index.id] + 's </div>';
+                else output += '<br>' + playerSave.objects[index.id] + '</div>';
+            }
+            else {
+                output += 'class = "done">';
+                if (index.id == 613) output += '<br><p>' + playerSave.objects[index.id] + 's </p></div>';
+                else output += '<br><p>' + playerSave.objects[index.id] + '</p></div>';
+            }   
+        }
+        output += '</div>';
+
+        output += '<p>Fishing:</p><div id="grid">';
+        for (let i = 0; i < 9; ++i) {
+            var index = playerSave.fallFish[i];
+            if (index.first || (!index.first && playerSave.Bundles[index.bundle][index.ex].completed == false && !full)) {
+                output += '<div class="box">'
+                output += '<img src="./app/images/' + index.id + '_img.png"';
+                if (playerSave.Bundles[index.bundle][index.ex].completed == false) {
+                    output += 'class = "not_done">'
+                    output += '<br>' + playerSave.objects[index.id] + '</div>';
+                }
+                else {
+                    output += 'class = "done">';
+                    output += '<br><p>' + playerSave.objects[index.id] + '</p></div>';
+                }
+            }
+        }
+        output += '</div>';
+
+        output += '<p>Other:</p> <div id = "grid">';
+        // axe
+        if (!full && playerSave.axe < 2) {
+            output += '<div class="box"> <img src="./app/images/axe'+ (playerSave.axe + 1) +'_img.png" class = "not_done"> <br>';
+            output += playerSave.objects['axe' + (playerSave.axe + 1)] + '</div>';
+        }
+        // pickaxe
+        if (full && playerSave.pickaxe < 3) {
+            output += '<div class="box"> <img src="./app/images/pickaxe3_img.png" class = "not_done"> <br>';
+            output += playerSave.objects['pickaxe3'] + '</div>';
+        }
+        else if (playerSave.pickaxe < 3) {
+            output += '<div class="box"> <img src="./app/images/pickaxe'+ (playerSave.pickaxe + 1) +'_img.png" class = "not_done"> <br>';
+            output += playerSave.objects['pickaxe' + (playerSave.pickaxe + 1) ] + '</div>';
+        }
+        else {
+            output += '<div class="box"> <img src="./app/images/pickaxe3_img.png" class = "done"> <br>';
+            output += '<p>' + playerSave.objects['pickaxe3'] + '</p></div>';
+        }
+        // coop
+        if (!full && playerSave.buildings["coop"] < 2) {
+            output += '<div class="box"> <img src="./app/images/coop' + (playerSave.buildings["coop"] + 1) + '_img.png" class = "not_done"> <br>';
+            output += playerSave.objects['coop' + (playerSave.buildings["coop"] + 1)] + '</div>';
+        }
+        // barn
+        if (full && playerSave.buildings["barn"] < 3) {
+            output += '<div class="box"> <img src="./app/images/barn3_img.png" class = "not_done"> <br>';
+            output += playerSave.objects['barn3'] + '</div>';
+        }
+        else if (playerSave.buildings["barn"] < 3) {
+            output += '<div class="box"> <img src="./app/images/barn' + (playerSave.buildings["barn"] + 1) + '_img.png" class = "not_done"> <br>';
+            output += playerSave.objects['barn' + (playerSave.buildings["barn"] + 1)] + '</div>';
+        }
+        else {
+            output += '<div class="box"> <img src="./app/images/barn3_img.png" class = "done"> <br>';
+            output += '<p>' + playerSave.objects['barn3'] + '</p></div>';
+        }
+        output += '</div>';
+        return output;
+    }
+
+    function winterCard(playerSave, heading, full) {
+        output = "";
+        output += '<h2>' + heading + '</h2> <p>Farming and Foraging:</p> <div id="grid">'
+        for (let i = 0; i < 6; ++i) {
+            output += '<div class="box">'
+            var index = playerSave.winterFarm[i];
+            output += '<img src="./app/images/' + index.id + '_img.png"';
+            if (playerSave.Bundles[index.bundle][index.ex].completed == false) {
+                output += 'class = "not_done">'
+                output += '<br>' + playerSave.objects[index.id] + '</div>';
+            }
+            else {
+                output += 'class = "done">';
+                output += '<br><p>' + playerSave.objects[index.id] + '</p></div>';
+            }
+        }
+        output += '</div>';
+
+        output += '<p>Fishing:</p><div id="grid">';
+        var count = 0;
+        for (let i = 0; i < 5; ++i) {
+            var index = playerSave.winterFish[i];
+            if (index.first || (!index.first && playerSave.Bundles[index.bundle][index.ex].completed == false && !full)) {
+                count++;
+                output += '<div class="box">'
+                output += '<img src="./app/images/' + index.id + '_img.png"';
+                if (playerSave.Bundles[index.bundle][index.ex].completed == false) {
+                    output += 'class = "not_done">'
+                    output += '<br>' + playerSave.objects[index.id] + '</div>';
+                }
+                else {
+                    output += 'class = "done">';
+                    output += '<br><p>' + playerSave.objects[index.id] + '</p></div>';
+                }
+            }
+        }
+        if (count == 0) {
+            output += '<p>None :( </p>'
+        }
+        output += '</div>';
+
+        output += '<p>Other:</p> <div id = "grid">';
+        // axe
+        if (!full && playerSave.axe < 2) {
+            output += '<div class="box"> <img src="./app/images/axe'+ (playerSave.axe + 1) +'_img.png" class = "not_done"> <br>';
+            output += playerSave.objects['axe' + (playerSave.axe + 1)] + '</div>';
+        }
+        // pickaxe
+        if (full && playerSave.pickaxe < 4) {
+            output += '<div class="box"> <img src="./app/images/pickaxe4_img.png" class = "not_done"> <br>';
+            output += playerSave.objects['pickaxe4'] + '</div>';
+        }
+        else if (playerSave.pickaxe < 4) {
+            output += '<div class="box"> <img src="./app/images/pickaxe'+ (playerSave.pickaxe + 1) +'_img.png" class = "not_done"> <br>';
+            output += playerSave.objects['pickaxe' + (playerSave.pickaxe + 1)] + '</div>';
+        }
+        else {
+            output += '<div class="box"> <img src="./app/images/pickaxe4_img.png" class = "done"> <br>';
+            output += '<p>' + playerSave.objects['pickaxe4'] + '</p></div>';
+        }
+        // coop
+        if (full && playerSave.buildings["coop"] < 3) {
+            output += '<div class="box"> <img src="./app/images/coop3_img.png" class = "not_done"> <br>';
+            output += playerSave.objects['coop3'] + '</div>';
+        }
+        else if (playerSave.buildings["coop"] < 3) {
+            output += '<div class="box"> <img src="./app/images/coop' + (playerSave.buildings["coop"] + 1) + '_img.png" class = "not_done"> <br>';
+            output += playerSave.objects['coop' + (playerSave.buildings["coop"] + 1)] + '</div>';
+        }
+        else {
+            output += '<div class="box"> <img src="./app/images/coop3_img.png" class = "done"> <br>';
+            output += '<p>' + playerSave.objects['coop3'] + '</p></div>';
+        }
+        // barn
+        if (!full && playerSave.buildings["barn"] < 3) {
+            output += '<div class="box"> <img src="./app/images/barn' + (playerSave.buildings["barn"] + 1) + '_img.png" class = "not_done"> <br>';
+            output += playerSave.objects['barn' + (playerSave.buildings["barn"] + 1)] + '</div>';
+        }
+        output += '</div>';
         return output;
     }
 
@@ -98,21 +406,35 @@ window.onload = function() {
             playerSave.farmName = $(saveXML).find('player > farmName').html();
             playerSave.year = Number($(saveXML).find('year').text());
             playerSave.xsiOrp3 = ($(saveXML).find('SaveGame[xmlns\\:xsi]').length > 0) ? 'xsi': 'p3';
-            //axeLocation = $(saveXML).find("Item[" + playerSave.xsiOrp3 + "\\:type='Pickaxe']");
             playerSave.pickaxe = Number($(saveXML).find("Item[" + playerSave.xsiOrp3 + "\\:type='Pickaxe'] > upgradeLevel").text());
             playerSave.axe = Number($(saveXML).find("Item[" + playerSave.xsiOrp3 + "\\:type='Axe'] > upgradeLevel").text());
             playerSave.house = Number($(saveXML).find('player > houseUpgradeLevel').text());
-
-            //TODO: fix this make it nicer
+            playerSave.buildings = {
+                "barn" : 0,
+                "coop": 0,
+                "Barn": 1,
+                "Big Barn": 2,
+                "Deluxe Barn": 3,
+                "Coop": 1,
+                "Big Coop": 2,
+                "Deluxe Coop": 3
+            }
 
             // all objects needed for checklist, indexed using in-game indices (until 900)
             playerSave.objects = {
-                "(T)CopperAxe": "Copper Axe",
-                "(T)SteelAxe]": "Steel Axe",
-                "(T)CopperPickaxe": "Copper Pickaxe",
-                "(T)SteelPickaxe": "Steel Pickaxe",
-                "(T)GoldPickaxe": "Gold Pickaxe",
-                "(T)IridiumPickaxe": "Irdium Pickaxe",
+                "barn1": "Barn",
+                "barn2": "Big Barn",
+                "barn3": "Deluxe Barn",
+                "coop1": "Coop",
+                "coop2": "Big Coop",
+                "coop3": "Deluxe Coop",
+                909: "Kitchen",
+                "axe1": "Copper Axe",
+                "axe2": "Steel Axe",
+                "pickaxe1": "Copper Pickaxe",
+                "pickaxe2": "Steel Pickaxe",
+                "pickaxe3": "Gold Pickaxe",
+                "pickaxe4": "Irdium Pickaxe",
                 16: "Wild Horseradish",
                 18: "Daffodil",
                 20: "Leek",
@@ -170,6 +492,7 @@ window.onload = function() {
                 376: "Poppy",
                 388: "Wood",
                 390: "Stone",
+                392: "Nautilus Shell",
                 398: "Grape",
                 396: "Spice Berry",
                 397: "Sea Urchin",
@@ -196,7 +519,6 @@ window.onload = function() {
                 444: "Duck Feather",
                 446: "Rabbit's Foot",
                 536: "Frozen Geode",
-                586: "Nautilus Shell",
                 613: "Apple",
                 634: "Apricot",
                 635: "Orange",
@@ -230,13 +552,6 @@ window.onload = function() {
                 900: "Gold Quality Parsnips",
                 901: "Gold Quality Melons",
                 902: "Gold Quality Corn",
-                903: "Barn",
-                904: "Big Barn",
-                905: "Deluxe Barn",
-                906: "Coop",
-                907: "Big Coop",
-                908: "Deluxe Coop",
-                909: "Kitchen",
                 910: "Vault 2,500g",
                 911: "Vault 5,000g",
                 912: "Vault 10,000g",
@@ -537,16 +852,6 @@ window.onload = function() {
                 {id: 445, completed: false}
             ] // Abandoned Joja Mart (not used, but needed for easy parsing)
 
-            // playerSave.Bundles[40] = [
-            //     //{needed: , have: 0},
-            //     {id: "(T)CopperAxe", completed: false},
-            //     {id: "(T)SteelAxe]", completed: false},
-            //     {id: "(T)CopperPickaxe", completed: false},
-            //     {id: "(T)SteelPickaxe", completed: false},
-            //     {id: "(T)GoldPickaxe", compledted: false},
-            //     {id: "(T)IridiumPickaxe", completed: false}
-            // ] // other items
-
             playerSave.springFarm = [
                 {id: 24, bundle: 0, ex: 1, first: true},
                 {id: 192, bundle: 0, ex: 4, first: true},
@@ -568,22 +873,103 @@ window.onload = function() {
                 {id: 145, bundle: 6, ex: 1, first: true}
             ]
 
+            playerSave.summerFarm = [
+                {id: 260, bundle: 1, ex: 2, first: true},
+                {id: 254, bundle: 1, ex: 4, first: true},
+                {id: 256, bundle: 1, ex: 1, first: true},
+                {id: 258, bundle: 1, ex: 3, first: true},
+                {id: 398, bundle: 14, ex: 2, first: true},
+                {id: 396, bundle: 14, ex: 1, first: true},
+                {id: 402, bundle: 14, ex: 3, first: true},
+                {id: 259, bundle: 31, ex: 2, first: true},
+                {id: 421, bundle: 34, ex: 3, first: true},
+                {id: 376, bundle: 31, ex: 4, first: true},
+                {id: 262, bundle: 35, ex: 1, first: true},
+                {id: 901, bundle: 3, ex: 2, first: true}
+            ]
+
+            playerSave.summerFish = [
+                {id: 128, bundle: 10, ex: 1, first: true},
+                {id: 150, bundle: 8, ex: 3, first: true},
+                {id: 698, bundle: 7, ex: 4, first: true},
+                {id: 701, bundle: 8, ex: 4, first: true},
+                {id: 130, bundle: 8, ex: 2, first: true},
+                {id: 706, bundle: 6, ex: 3, first: false},
+                {id: 145, bundle: 6, ex: 1, first: false}
+            ]
+
+            playerSave.fallFarm = [
+                {id: 276, bundle: 2, ex: 3, first: true},
+                {id: 280, bundle: 2, ex: 4, first: true},
+                {id: 270, bundle: 2, ex: 1, first: true},
+                {id: 272, bundle: 2, ex: 2, first: true},
+                {id: 404, bundle: 15, ex: 1, first: true},
+                {id: 408, bundle: 15, ex: 3, first: true},
+                {id: 406, bundle: 15, ex: 2, first: true},
+                {id: 410, bundle: 15, ex: 4, first: true},
+                {id: 430, bundle: 15, ex: 4, first: true},
+                {id: 637, bundle: 5, ex: 11, first: true},
+                {id: 613, bundle: 35, ex: 3, first: true},
+                {id: 902, bundle: 31, ex: 3, first: true},
+            ]
+
+            playerSave.fallFish = [
+                {id: 699, bundle: 6, ex: 4, first: true},
+                {id: 140, bundle: 9, ex: 1, first: true},
+                {id: 143, bundle: 6, ex: 2, first: false},
+                {id: 706, bundle: 6, ex: 3, first: false},
+                {id: 142, bundle: 7, ex: 2, first: false},
+                {id: 131, bundle: 8, ex: 1, first: false},
+                {id: 150, bundle: 8, ex: 3, first: false},
+                {id: 701, bundle: 8, ex: 4, first: false},
+                {id: 148, bundle: 9, ex: 3, first: false}
+            ]
+
+            playerSave.winterFarm = [
+                {id: 414, bundle: 16, ex: 2, first: true},
+                {id: 416, bundle: 16, ex: 3, first: true},
+                {id: 392, bundle: 32, ex: 2, first: true},
+                {id: 412, bundle: 16, ex: 1, first: true},
+                {id: 418, bundle: 16, ex: 4, first: true},
+                {id: 266, bundle: 34, ex: 6, first: true}
+            ]
+
+            playerSave.winterFish = [
+                {id: 699, bundle: 6, ex: 4, first: false},
+                {id: 698, bundle: 7, ex: 4, first: false},
+                {id: 131, bundle: 8, ex: 1, first: false},
+                {id: 130, bundle: 8, ex: 2, first: false},
+                {id: 140, bundle: 9, ex: 1, first: false}
+            ]
+
             readBundles(saveXML, playerSave);
+            readBuildings(saveXML, playerSave);
 
             // TODO: present data by season, state whether player is on track based on playerSave.season
             if (playerSave.season === "spring") {
-                output += sum(playerSave) + springCard(playerSave);
+                output += sum(playerSave);
+                output += '<div class = "season" id="this_month">' + springCard(playerSave, "This Month:", false) + '</div>';
+                output += '<div class = "season" id="next">' + summerCard(playerSave, "Next Month:", true) + '</div>';
             }
             else if (playerSave.season === "summer") {
-                output += '<div class="card">' + sum(playerSave) + springCard(playerSave) +'</div>';
+                output += sum(playerSave);
+                output += '<div class = "season" id="this_month">' + summerCard(playerSave, "This Month:", false) + '</div>';
+                output += '<div class = "season" id="next">' + fallCard(playerSave, "Next Month:", true) + '</div>';
             }
             else if (playerSave.season === "fall") {
-                output += '<div class="card">' + sum(playerSave) + springCard(playerSave) +'</div>';
+                output += sum(playerSave);
+                output += '<div class = "season" id="this_month">' + fallCard(playerSave, "This Month:", false) + '</div>';
+                output += '<div class = "season" id="next">' + winterCard(playerSave, "Next Month:", true) + '</div>';
             }
             else if (playerSave.season === "winter") {
-                output += '<div class="card">' + sum(playerSave) + '</div>';
+                output += sum(playerSave);
+                output += '<div class = "season" id="this_month">' + winterCard(playerSave, "This Month:", false) + '</div>';
+                output += '<div class = "season" id="next">' + springCard(playerSave, "Next Month:", true) + '</div>';
             }
 
+            output += '<div class = "season" id="check"> <h2 class = "full">Full Checklist:</h2>';
+            output += springCard(playerSave, "Spring:", true) + summerCard(playerSave, "Summer:", true) + fallCard(playerSave, "Fall:", true) + winterCard(playerSave, "Winter:", true);
+            output += '</div>';
             // TODO: check if player is using remixed bundles (not supported with checklist)
             // TODO: parse bundle data
             document.getElementById('out').innerHTML = output;
