@@ -8,6 +8,7 @@
     left: 0;
     background-color: white;
     overflow-x: hidden;
+    white-space: nowrap;
     transition: 0.5s;
     padding-top: 20px;
     box-shadow: 3px 0 3px lightgrey;

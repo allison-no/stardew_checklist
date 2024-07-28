@@ -22,10 +22,16 @@ p {
 }
 
 h2 {
-    font-size: 20px;
+    font-size: 25px;
     font-weight: 600;
     margin-left: 20px;
     margin-right: 20px;
+}
+
+h3 {
+    font-size: 20px;
+    font-weight: 600;
+    margin: 0px 20px;
 }
 
 /* heading css */
@@ -132,7 +138,7 @@ input::file-selector-button {
     word-wrap: break-word;
 }
 
-.summary .img {
+.summary img {
     display: block;
     margin-left: auto;
     margin-right: auto;
@@ -189,11 +195,6 @@ input::file-selector-button {
     margin-top: 0px;
 }
 
-.full {
-    font-size: 25px;
-    margin-top: 20px;
-}
-
 #grid {
     display: flex;
     flex-wrap: wrap;
@@ -224,6 +225,78 @@ input::file-selector-button {
 .box p {
     margin: 0px;
     text-decoration: line-through;
+}
+
+/* bundle rooms css*/
+
+.bundles {
+    display: flex;
+}
+
+.room {
+    margin: 20px;
+    align-items: center;
+    justify-content: center;
+}
+
+.room img{
+    width: 200px;
+    margin: 10px;
+    height: auto;
+}
+
+.buns {
+    display: flex;
+    width: 100%;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+}
+
+.bunbun {
+    font-size: 12px;
+    text-align: center;
+    margin: 20px;
+    width: 125px;
+    height: 125px;
+}
+
+.bunbun img{
+    width: 75px;
+    height: auto;
+}
+
+.bun_block {
+    display:flex; 
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 0px;
+}
+
+#progress_bun {
+    width: 75px;
+    height: 10px;
+    background-color: lightgrey;
+    border-radius: 20px;
+}
+
+#bun_bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 10px;
+    background-color: dodgerblue;
+    border-radius: 20px;
+}
+
+.per {
+    display: block;
+    width: 100px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 20px;
+    display: flex;
+    font-size: 10px;
+    justify-content: center;
 }
 
 /* footer css */

@@ -62,19 +62,21 @@ window.onload = function() {
         return output;
     }
 
-    function springCard(playerSave, heading) {
+    function springCard(playerSave) {
         output = "";
-        output += '<h2>' + heading + '</h2> <p>Farming and Foraging:</p> <div id="grid">';
+        output += '<p>Farming and Foraging:</p> <div id="grid">';
         for (let i = 0; i < 9; ++i) { //TODO: add links to wiki
             output += '<div class="box">'
             var index = playerSave.springFarm[i];
-            output += '<img src="./app/images/' + index.id + '_img.png"';
+            var wikiName = playerSave.objects[playerSave.Bundles[index.bundle][index.ex].id];
+            wikiName.split(' ').join('_');
+            output += '<a href="https://stardewvalleywiki.com/' + wikiName + '"><img src="./app/images/' + index.id + '_img.png"';
             if (playerSave.Bundles[index.bundle][index.ex].completed == false) {
-                output += 'class = "not_done">'
+                output += 'class = "not_done"></a>';
                 output += '<br>' + playerSave.objects[index.id] + '</div>';
             }
             else {
-                output += 'class = "done">';
+                output += 'class = "done"></a>';
                 output += '<br><p>' + playerSave.objects[index.id] + '</p></div>';
             }
             
@@ -85,13 +87,15 @@ window.onload = function() {
         for (let i = 0; i < 6; ++i) { 
             output += '<div class="box">'
             var index = playerSave.springFish[i];
-            output += '<img src="./app/images/' + index.id + '_img.png"';
+            var wikiName = playerSave.objects[index.id];
+            wikiName.split(' ').join('_');
+            output += '<a href="https://stardewvalleywiki.com/' + wikiName + '"><img src="./app/images/' + index.id + '_img.png"';
             if (playerSave.Bundles[index.bundle][index.ex].completed == false) {
-                output += 'class = "not_done">'
+                output += 'class = "not_done"></a>';
                 output += '<br>' + playerSave.objects[index.id] + '</div>';
             }
             else {
-                output += 'class = "done">';
+                output += 'class = "done"></a>';
                 output += '<br><p>' + playerSave.objects[index.id] + '</p></div>';
             }
         }
@@ -100,57 +104,59 @@ window.onload = function() {
         output += '<p>Other:</p> <div id = "grid">';
         // axe
         if (playerSave.axe == 0) {
-            output += '<div class="box"> <img src="./app/images/axe1_img.png" class = "not_done"> <br>';
+            output += '<div class="box"><a href="https://stardewvalleywiki.com/Axes"><img src="./app/images/axe1_img.png" class = "not_done"></a><br>';
             output += playerSave.objects['axe1'] + '</div>';
         }
         else {
-            output += '<div class="box"> <img src="./app/images/axe1_img.png" class = "done"> <br>';
+            output += '<div class="box"><a href="https://stardewvalleywiki.com/Axes"><img src="./app/images/axe1_img.png" class = "done"></a><br>';
             output += '<p>' +playerSave.objects['axe1'] + '</p></div>';
         }
         // pickaxe
         if (playerSave.pickaxe == 0) {
-            output += '<div class="box"> <img src="./app/images/pickaxe1_img.png" class = "not_done"> <br>';
+            output += '<div class="box"><a href="https://stardewvalleywiki.com/Pickaxes"><img src="./app/images/pickaxe1_img.png" class = "not_done"></a><br>';
             output += playerSave.objects['pickaxe1'] + '</div>';
         }
         else {
-            output += '<div class="box"> <img src="./app/images/pickaxe1_img.png" class = "done"> <br>';
+            output += '<div class="box"><a href="https://stardewvalleywiki.com/Pickaxes"><img src="./app/images/pickaxe1_img.png" class = "done"></a><br>';
             output += '<p>' + playerSave.objects['pickaxe1'] + '</p></div>';
         }
         // coop
         if (playerSave.buildings["coop"] == 0) {
-            output += '<div class="box"> <img src="./app/images/coop1_img.png" class = "not_done"> <br>';
+            output += '<div class="box"><a href="https://stardewvalleywiki.com/Coop"><img src="./app/images/coop1_img.png" class = "not_done"></a><br>';
             output += playerSave.objects['coop1'] + '</div>';
         }
         else {
-            output += '<div class="box"> <img src="./app/images/coop1_img.png" class = "done"> <br>';
+            output += '<div class="box"><a href="https://stardewvalleywiki.com/Coop"><img src="./app/images/coop1_img.png" class = "done"></a><br>';
             output += '<p>' + playerSave.objects['coop1'] + '</p></div>';
         }
         // barn
         if (playerSave.buildings["barn"] == 0) {
-            output += '<div class="box"> <img src="./app/images/barn1_img.png" class = "not_done"> <br>';
+            output += '<div class="box"><a href="https://stardewvalleywiki.com/Barn"><<img src="./app/images/barn1_img.png" class = "not_done"></a><br>';
             output += playerSave.objects['barn1'] + '</div>';
         }
         else {
-            output += '<div class="box"> <img src="./app/images/barn1_img.png" class = "done"> <br>';
+            output += '<div class="box"><a href="https://stardewvalleywiki.com/Barn"><<img src="./app/images/barn1_img.png" class = "done"></a><br>';
             output += '<p>' + playerSave.objects['barn1'] + '</p></div>';
         }
         output += '</div>';
         return output;
     }
 
-    function summerCard(playerSave, heading, full) {
+    function summerCard(playerSave, full) {
         output = "";
-        output += '<h2>' + heading + '</h2> <p>Farming and Foraging:</p> <div id="grid">';
+        output += '<p>Farming and Foraging:</p> <div id="grid">';
         for (let i = 0; i < 12; ++i) {//12
             output += '<div class="box">'
             var index = playerSave.summerFarm[i];
-            output += '<img src="./app/images/' + index.id + '_img.png"';
+            var wikiName = playerSave.objects[playerSave.Bundles[index.bundle][index.ex].id];
+            wikiName.split(' ').join('_');
+            output += '<a href="https://stardewvalleywiki.com/' + wikiName + '"><img src="./app/images/' + index.id + '_img.png"';
             if (playerSave.Bundles[index.bundle][index.ex].completed == false) {
-                output += 'class = "not_done">'
+                output += 'class = "not_done"></a>';
                 output += '<br>' + playerSave.objects[index.id] + '</div>';
             }
             else {
-                output += 'class = "done">';
+                output += 'class = "done"></a>';
                 output += '<br><p>' + playerSave.objects[index.id] + '</p></div>';
             }
         }
@@ -161,13 +167,15 @@ window.onload = function() {
             var index = playerSave.summerFish[i];
             if (index.first || (!index.first && playerSave.Bundles[index.bundle][index.ex].completed == false && !full)) {
                 output += '<div class="box">'
-                output += '<img src="./app/images/' + index.id + '_img.png"';
+                var wikiName = playerSave.objects[index.id];
+                wikiName.split(' ').join('_');
+                output += '<a href="https://stardewvalleywiki.com/' + wikiName + '"><img src="./app/images/' + index.id + '_img.png"';
                 if (playerSave.Bundles[index.bundle][index.ex].completed == false) {
-                    output += 'class = "not_done">'
+                    output += 'class = "not_done"></a>';
                     output += '<br>' + playerSave.objects[index.id] + '</div>';
                 }
                 else {
-                    output += 'class = "done">';
+                    output += 'class = "done"></a>';
                     output += '<br><p>' + playerSave.objects[index.id] + '</p></div>';
                 }
             }
@@ -177,75 +185,77 @@ window.onload = function() {
         output += '<p>Other:</p> <div id = "grid">';
         // axe
         if (full && playerSave.axe < 2) {
-            output += '<div class="box"> <img src="./app/images/axe2_img.png" class = "not_done"> <br>';
+            output += '<div class="box"><a href="https://stardewvalleywiki.com/Axes"><img src="./app/images/axe2_img.png" class = "not_done"></a><br>';
             output += playerSave.objects['axe2'] + '</div>';
         }
         else if (playerSave.axe < 2) {
-            output += '<div class="box"> <img src="./app/images/axe'+ (playerSave.axe + 1) +'_img.png" class = "not_done"> <br>';
+            output += '<div class="box"><a href="https://stardewvalleywiki.com/Axes"><img src="./app/images/axe'+ (playerSave.axe + 1) +'_img.png" class = "not_done"></a><br>';
             output += playerSave.objects['axe' + (playerSave.axe + 1)] + '</div>';
         }
         else {
-            output += '<div class="box"> <img src="./app/images/axe2_img.png" class = "done"> <br>';
+            output += '<div class="box"><a href="https://stardewvalleywiki.com/Axes"><img src="./app/images/axe2_img.png" class = "done"></a><br>';
             output += '<p>' + playerSave.objects['axe2'] + '</p></div>';
         }
         // pickaxe
         if (full && playerSave.pickaxe < 2) {
-            output += '<div class="box"> <img src="./app/images/pickaxe2_img.png" class = "not_done"> <br>';
+            output += '<div class="box"><a href="https://stardewvalleywiki.com/Pickaxes"><img src="./app/images/pickaxe2_img.png" class = "not_done"></a><br>';
             output += playerSave.objects['pickaxe2'] + '</div>';
         }
         else if (playerSave.pickaxe < 2) {
-            output += '<div class="box"> <img src="./app/images/pickaxe'+ (playerSave.pickaxe + 1) +'_img.png" class = "not_done"> <br>';
+            output += '<div class="box"><a href="https://stardewvalleywiki.com/Pickaxes"><img src="./app/images/pickaxe'+ (playerSave.pickaxe + 1) +'_img.png" class = "not_done"></a><br>';
             output += playerSave.objects['pickaxe' + (playerSave.pickaxe + 1) ] + '</div>';
         }
         else {
-            output += '<div class="box"> <img src="./app/images/pickaxe2_img.png" class = "done"> <br>';
+            output += '<div class="box"><a href="https://stardewvalleywiki.com/Pickaxes"><img src="./app/images/pickaxe2_img.png" class = "done"></a><br>';
             output += '<p>' + playerSave.objects['pickaxe2'] + '</p></div>';
         }
         // coop
         if (full && playerSave.buildings["coop"] < 2) {
-            output += '<div class="box"> <img src="./app/images/coop2_img.png" class = "not_done"> <br>';
+            output += '<div class="box"><a href="https://stardewvalleywiki.com/Coop"><img src="./app/images/coop2_img.png" class = "not_done"></a><br>';
             output += playerSave.objects['coop2'] + '</div>';
         }
         else if (playerSave.buildings["coop"] < 2) {
-            output += '<div class="box"> <img src="./app/images/coop' + (playerSave.buildings["coop"] + 1) + '_img.png" class = "not_done"> <br>';
+            output += '<div class="box"><a href="https://stardewvalleywiki.com/Coop"><img src="./app/images/coop' + (playerSave.buildings["coop"] + 1) + '_img.png" class = "not_done"></a><br>';
             output += playerSave.objects['coop' + (playerSave.buildings["coop"] + 1)] + '</div>';
         }
         else {
-            output += '<div class="box"> <img src="./app/images/coop2_img.png" class = "done"> <br>';
+            output += '<div class="box"><a href="https://stardewvalleywiki.com/Coop"><img src="./app/images/coop2_img.png" class = "done"></a><br>';
             output +='<p>' + playerSave.objects['coop2'] + '</p></div>';
         }
         // barn
         if (full && playerSave.buildings["barn"] < 2) {
-            output += '<div class="box"> <img src="./app/images/barn2_img.png" class = "not_done"> <br>';
+            output += '<div class="box"><a href="https://stardewvalleywiki.com/Barn"><img src="./app/images/barn2_img.png" class = "not_done"></a><br>';
             output += playerSave.objects['barn2'] + '</div>';
         }
         else if (playerSave.buildings["barn"] < 2) {
-            output += '<div class="box"> <img src="./app/images/barn' + (playerSave.buildings["barn"] + 1) + '_img.png" class = "not_done"> <br>';
+            output += '<div class="box"><a href="https://stardewvalleywiki.com/Barn"><img src="./app/images/barn' + (playerSave.buildings["barn"] + 1) + '_img.png" class = "not_done"></a><br>';
             output += playerSave.objects['barn' + (playerSave.buildings["barn"] + 1)] + '</div>';
         }
         else {
-            output += '<div class="box"> <img src="./app/images/barn2_img.png" class = "done"> <br>';
+            output += '<div class="box"><a href="https://stardewvalleywiki.com/Barn"><img src="./app/images/barn2_img.png" class = "done"></a><br>';
             output += '<p>'+ playerSave.objects['barn2'] + '</p></div>';
         }
         output += '</div>';
         return output;
     }
 
-    function fallCard(playerSave, heading, full) {
+    function fallCard(playerSave, full) {
         output = "";
-        output += '<h2>' + heading + '</h2> <p>Farming and Foraging:</p> <div id="grid">';
+        output += '<p>Farming and Foraging:</p> <div id="grid">';
 
         for (let i = 0; i < 12; ++i) {
             output += '<div class="box">'
             var index = playerSave.fallFarm[i];
-            output += '<img src="./app/images/' + index.id + '_img.png"';
+            var wikiName = playerSave.objects[playerSave.Bundles[index.bundle][index.ex].id];
+            wikiName.split(' ').join('_');
+            output += '<a href="https://stardewvalleywiki.com/' + wikiName + '"><img src="./app/images/' + index.id + '_img.png"';
             if (playerSave.Bundles[index.bundle][index.ex].completed == false) {
-                output += 'class = "not_done">'
+                output += 'class = "not_done"></a>';
                 if (index.id == 613) output += '<br>' + playerSave.objects[index.id] + 's x3 </div>';
                 else output += '<br>' + playerSave.objects[index.id] + '</div>';
             }
             else {
-                output += 'class = "done">';
+                output += 'class = "done"></a>';
                 if (index.id == 613) output += '<br><p>' + playerSave.objects[index.id] + 's x3</p></div>';
                 else output += '<br><p>' + playerSave.objects[index.id] + '</p></div>';
             }   
@@ -257,13 +267,15 @@ window.onload = function() {
             var index = playerSave.fallFish[i];
             if (index.first || (!index.first && playerSave.Bundles[index.bundle][index.ex].completed == false && !full)) {
                 output += '<div class="box">'
-                output += '<img src="./app/images/' + index.id + '_img.png"';
+                var wikiName = playerSave.objects[index.id];
+                wikiName.split(' ').join('_');
+                output += '<a href="https://stardewvalleywiki.com/' + wikiName + '"><img src="./app/images/' + index.id + '_img.png"';
                 if (playerSave.Bundles[index.bundle][index.ex].completed == false) {
-                    output += 'class = "not_done">'
+                    output += 'class = "not_done"></a>';
                     output += '<br>' + playerSave.objects[index.id] + '</div>';
                 }
                 else {
-                    output += 'class = "done">';
+                    output += 'class = "done"></a>';
                     output += '<br><p>' + playerSave.objects[index.id] + '</p></div>';
                 }
             }
@@ -273,57 +285,59 @@ window.onload = function() {
         output += '<p>Other:</p> <div id = "grid">';
         // axe
         if (!full && playerSave.axe < 2) {
-            output += '<div class="box"> <img src="./app/images/axe'+ (playerSave.axe + 1) +'_img.png" class = "not_done"> <br>';
+            output += '<div class="box"><a href="https://stardewvalleywiki.com/Axes"><img src="./app/images/axe'+ (playerSave.axe + 1) +'_img.png" class = "not_done"></a><br>';
             output += playerSave.objects['axe' + (playerSave.axe + 1)] + '</div>';
         }
         // pickaxe
         if (full && playerSave.pickaxe < 3) {
-            output += '<div class="box"> <img src="./app/images/pickaxe3_img.png" class = "not_done"> <br>';
+            output += '<div class="box"><a href="https://stardewvalleywiki.com/Pickaxes"><img src="./app/images/pickaxe3_img.png" class = "not_done"></a><br>';
             output += playerSave.objects['pickaxe3'] + '</div>';
         }
         else if (playerSave.pickaxe < 3) {
-            output += '<div class="box"> <img src="./app/images/pickaxe'+ (playerSave.pickaxe + 1) +'_img.png" class = "not_done"> <br>';
+            output += '<div class="box"><a href="https://stardewvalleywiki.com/Pickaxes"><img src="./app/images/pickaxe'+ (playerSave.pickaxe + 1) +'_img.png" class = "not_done"></a><br>';
             output += playerSave.objects['pickaxe' + (playerSave.pickaxe + 1) ] + '</div>';
         }
         else {
-            output += '<div class="box"> <img src="./app/images/pickaxe3_img.png" class = "done"> <br>';
+            output += '<div class="box"><a href="https://stardewvalleywiki.com/Pickaxes"><img src="./app/images/pickaxe3_img.png" class = "done"></a><br>';
             output += '<p>' + playerSave.objects['pickaxe3'] + '</p></div>';
         }
         // coop
         if (!full && playerSave.buildings["coop"] < 2) {
-            output += '<div class="box"> <img src="./app/images/coop' + (playerSave.buildings["coop"] + 1) + '_img.png" class = "not_done"> <br>';
+            output += '<div class="box"><a href="https://stardewvalleywiki.com/Coop"><img src="./app/images/coop' + (playerSave.buildings["coop"] + 1) + '_img.png" class = "not_done"></a><br>';
             output += playerSave.objects['coop' + (playerSave.buildings["coop"] + 1)] + '</div>';
         }
         // barn
         if (full && playerSave.buildings["barn"] < 3) {
-            output += '<div class="box"> <img src="./app/images/barn3_img.png" class = "not_done"> <br>';
+            output += '<div class="box"><a href="https://stardewvalleywiki.com/Barn"><img src="./app/images/barn3_img.png" class = "not_done"></a><br>';
             output += playerSave.objects['barn3'] + '</div>';
         }
         else if (playerSave.buildings["barn"] < 3) {
-            output += '<div class="box"> <img src="./app/images/barn' + (playerSave.buildings["barn"] + 1) + '_img.png" class = "not_done"> <br>';
+            output += '<div class="box"><a href="https://stardewvalleywiki.com/Barn"><img src="./app/images/barn' + (playerSave.buildings["barn"] + 1) + '_img.png" class = "not_done"></a><br>';
             output += playerSave.objects['barn' + (playerSave.buildings["barn"] + 1)] + '</div>';
         }
         else {
-            output += '<div class="box"> <img src="./app/images/barn3_img.png" class = "done"> <br>';
+            output += '<div class="box"><a href="https://stardewvalleywiki.com/Barn"><img src="./app/images/barn3_img.png" class = "done"></a><br>';
             output += '<p>' + playerSave.objects['barn3'] + '</p></div>';
         }
         output += '</div>';
         return output;
     }
 
-    function winterCard(playerSave, heading, full) {
+    function winterCard(playerSave, full) {
         output = "";
-        output += '<h2>' + heading + '</h2> <p>Farming and Foraging:</p> <div id="grid">';
+        output += '<p>Farming and Foraging:</p> <div id="grid">';
         for (let i = 0; i < 6; ++i) {
             output += '<div class="box">'
             var index = playerSave.winterFarm[i];
-            output += '<img src="./app/images/' + index.id + '_img.png"';
+            var wikiName = playerSave.objects[playerSave.Bundles[index.bundle][index.ex].id];
+            wikiName.split(' ').join('_');
+            output += '<a href="https://stardewvalleywiki.com/' + wikiName + '"><img src="./app/images/' + index.id + '_img.png"';
             if (playerSave.Bundles[index.bundle][index.ex].completed == false) {
-                output += 'class = "not_done">'
+                output += 'class = "not_done"></a>';
                 output += '<br>' + playerSave.objects[index.id] + '</div>';
             }
             else {
-                output += 'class = "done">';
+                output += 'class = "done"></a>';
                 output += '<br><p>' + playerSave.objects[index.id] + '</p></div>';
             }
         }
@@ -336,13 +350,15 @@ window.onload = function() {
             if (index.first || (!index.first && playerSave.Bundles[index.bundle][index.ex].completed == false && !full)) {
                 count++;
                 output += '<div class="box">'
-                output += '<img src="./app/images/' + index.id + '_img.png"';
+                var wikiName = playerSave.objects[index.id];
+                wikiName.split(' ').join('_');
+                output += '<a href="https://stardewvalleywiki.com/' + wikiName + '"><img src="./app/images/' + index.id + '_img.png"';
                 if (playerSave.Bundles[index.bundle][index.ex].completed == false) {
-                    output += 'class = "not_done">'
+                    output += 'class = "not_done"></a>';
                     output += '<br>' + playerSave.objects[index.id] + '</div>';
                 }
                 else {
-                    output += 'class = "done">';
+                    output += 'class = "done"></a>';
                     output += '<br><p>' + playerSave.objects[index.id] + '</p></div>';
                 }
             }
@@ -355,38 +371,38 @@ window.onload = function() {
         output += '<p>Other:</p> <div id = "grid">';
         // axe
         if (!full && playerSave.axe < 2) {
-            output += '<div class="box"> <img src="./app/images/axe'+ (playerSave.axe + 1) +'_img.png" class = "not_done"> <br>';
+            output += '<div class="box"><a href="https://stardewvalleywiki.com/Axes"><img src="./app/images/axe'+ (playerSave.axe + 1) +'_img.png" class = "not_done"></a><br>';
             output += playerSave.objects['axe' + (playerSave.axe + 1)] + '</div>';
         }
         // pickaxe
         if (full && playerSave.pickaxe < 4) {
-            output += '<div class="box"> <img src="./app/images/pickaxe4_img.png" class = "not_done"> <br>';
+            output += '<div class="box"><a href="https://stardewvalleywiki.com/Pickaxes"><img src="./app/images/pickaxe4_img.png" class = "not_done"></a><br>';
             output += playerSave.objects['pickaxe4'] + '</div>';
         }
         else if (playerSave.pickaxe < 4) {
-            output += '<div class="box"> <img src="./app/images/pickaxe'+ (playerSave.pickaxe + 1) +'_img.png" class = "not_done"> <br>';
+            output += '<div class="box"><a href="https://stardewvalleywiki.com/Pickaxes"><img src="./app/images/pickaxe'+ (playerSave.pickaxe + 1) +'_img.png" class = "not_done"></a><br>';
             output += playerSave.objects['pickaxe' + (playerSave.pickaxe + 1)] + '</div>';
         }
         else {
-            output += '<div class="box"> <img src="./app/images/pickaxe4_img.png" class = "done"> <br>';
+            output += '<div class="box"><a href="https://stardewvalleywiki.com/Pickaxes"><img src="./app/images/pickaxe4_img.png" class = "done"></a><br>';
             output += '<p>' + playerSave.objects['pickaxe4'] + '</p></div>';
         }
         // coop
         if (full && playerSave.buildings["coop"] < 3) {
-            output += '<div class="box"> <img src="./app/images/coop3_img.png" class = "not_done"> <br>';
+            output += '<div class="box"><a href="https://stardewvalleywiki.com/Coop"><img src="./app/images/coop3_img.png" class = "not_done"></a><br>';
             output += playerSave.objects['coop3'] + '</div>';
         }
         else if (playerSave.buildings["coop"] < 3) {
-            output += '<div class="box"> <img src="./app/images/coop' + (playerSave.buildings["coop"] + 1) + '_img.png" class = "not_done"> <br>';
+            output += '<div class="box"><a href="https://stardewvalleywiki.com/Coop"><img src="./app/images/coop' + (playerSave.buildings["coop"] + 1) + '_img.png" class = "not_done"></a><br>';
             output += playerSave.objects['coop' + (playerSave.buildings["coop"] + 1)] + '</div>';
         }
         else {
-            output += '<div class="box"> <img src="./app/images/coop3_img.png" class = "done"> <br>';
+            output += '<div class="box"><a href="https://stardewvalleywiki.com/Coop"><img src="./app/images/coop3_img.png" class = "done"></a><br>';
             output += '<p>' + playerSave.objects['coop3'] + '</p></div>';
         }
         // barn
         if (!full && playerSave.buildings["barn"] < 3) {
-            output += '<div class="box"> <img src="./app/images/barn' + (playerSave.buildings["barn"] + 1) + '_img.png" class = "not_done"> <br>';
+            output += '<div class="box"><a href="https://stardewvalleywiki.com/Barn"><img src="./app/images/barn' + (playerSave.buildings["barn"] + 1) + '_img.png" class = "not_done"></a><br>';
             output += playerSave.objects['barn' + (playerSave.buildings["barn"] + 1)] + '</div>';
         }
         output += '</div>';
@@ -395,17 +411,19 @@ window.onload = function() {
 
     function anytimeCard(playerSave) {
         output = "";
-        output += '<h2>Anytime:</h2> <p>Mining:</p> <div id="grid">';
+        output += '<p>Mining:</p> <div id="grid">';
         for (let i = 0; i < 13; ++i) {
             output += '<div class="box">'
             var index = playerSave.mine[i];
-            output += '<img src="./app/images/' + index.id + '_img.png"';
+            var wikiName = playerSave.objects[playerSave.Bundles[index.bundle][index.ex].id];
+            wikiName.split(' ').join('_');
+            output += '<a href="https://stardewvalleywiki.com/' + wikiName + '"><img src="./app/images/' + index.id + '_img.png"';
             if (playerSave.Bundles[index.bundle][index.ex].completed == false) {
-                output += 'class = "not_done">'
+                output += 'class = "not_done"></a>';
                 output += '<br>' + playerSave.objects[index.id] + '</div>';
             }
             else {
-                output += 'class = "done">';
+                output += 'class = "done"></a>';
                 output += '<br><p>' + playerSave.objects[index.id] + '</p></div>';
             }
         }
@@ -415,13 +433,15 @@ window.onload = function() {
         for (let i = 0; i < 5; ++i) {
             output += '<div class="box">'
             var index = playerSave.crab[i];
-            output += '<img src="./app/images/' + index.id + '_img.png"';
+            var wikiName = playerSave.objects[playerSave.Bundles[index.bundle][index.ex].id];
+            wikiName.split(' ').join('_');
+            output += '<a href="https://stardewvalleywiki.com/' + wikiName + '"><img src="./app/images/' + index.id + '_img.png"';
             if (playerSave.Bundles[index.bundle][index.ex].completed == false) {
-                output += 'class = "not_done">'
+                output += 'class = "not_done"></a>';
                 output += '<br>' + playerSave.objects[index.id] + '</div>';
             }
             else {
-                output += 'class = "done">';
+                output += 'class = "done"></a>';
                 output += '<br><p>' + playerSave.objects[index.id] + '</p></div>';
             }
         }
@@ -431,13 +451,15 @@ window.onload = function() {
         for (let i = 0; i < 7; ++i) {
             output += '<div class="box">'
             var index = playerSave.anytimeFish[i];
-            output += '<img src="./app/images/' + index.id + '_img.png"';
+            var wikiName = playerSave.objects[playerSave.Bundles[index.bundle][index.ex].id];
+            wikiName.split(' ').join('_');
+            output += '<a href="https://stardewvalleywiki.com/' + wikiName + '"><img src="./app/images/' + index.id + '_img.png"';
             if (playerSave.Bundles[index.bundle][index.ex].completed == false) {
-                output += 'class = "not_done">'
+                output += 'class = "not_done"></a>';
                 output += '<br>' + playerSave.objects[index.id] + '</div>';
             }
             else {
-                output += 'class = "done">';
+                output += 'class = "done"></a>';
                 output += '<br><p>' + playerSave.objects[index.id] + '</p></div>';
             }
         }
@@ -447,13 +469,15 @@ window.onload = function() {
         for (let i = 0; i < 7; ++i) {
             output += '<div class="box">'
             var index = playerSave.exotic[i];
-            output += '<img src="./app/images/' + index.id + '_img.png"';
+            var wikiName = playerSave.objects[playerSave.Bundles[index.bundle][index.ex].id];
+            wikiName.split(' ').join('_');
+            output += '<a href="https://stardewvalleywiki.com/' + wikiName + '"><img src="./app/images/' + index.id + '_img.png"';
             if (playerSave.Bundles[index.bundle][index.ex].completed == false) {
-                output += 'class = "not_done">'
+                output += 'class = "not_done"></a>';
                 output += '<br>' + playerSave.objects[index.id] + '</div>';
             }
             else {
-                output += 'class = "done">';
+                output += 'class = "done"></a>';
                 output += '<br><p>' + playerSave.objects[index.id] + '</p></div>';
             }
         }
@@ -463,13 +487,15 @@ window.onload = function() {
         for (let i = 0; i < 4; ++i) {
             output += '<div class="box">'
             var index = playerSave.construction[i];
-            output += '<img src="./app/images/' + index.id + '_img.png"';
+            var wikiName = playerSave.objects[playerSave.Bundles[index.bundle][index.ex].id];
+            wikiName.split(' ').join('_');
+            output += '<a href="https://stardewvalleywiki.com/' + wikiName + '"><img src="./app/images/' + index.id + '_img.png"';
             if (playerSave.Bundles[index.bundle][index.ex].completed == false) {
-                output += 'class = "not_done">'
+                output += 'class = "not_done"></a>';
                 output += '<br>' + playerSave.objects[index.id] + '</div>';
             }
             else {
-                output += 'class = "done">';
+                output += 'class = "done"></a>';
                 output += '<br><p>' + playerSave.objects[index.id] + '</p></div>';
             }
         }
@@ -479,13 +505,15 @@ window.onload = function() {
         for (let i = 0; i < 7; ++i) {
             output += '<div class="box">'
             var index = playerSave.animals[i];
-            output += '<img src="./app/images/' + index.id + '_img.png"';
+            var wikiName = playerSave.objects[playerSave.Bundles[index.bundle][index.ex].id];
+            wikiName.split(' ').join('_');
+            output += '<a href="https://stardewvalleywiki.com/' + wikiName + '"><img src="./app/images/' + index.id + '_img.png"';
             if (playerSave.Bundles[index.bundle][index.ex].completed == false) {
-                output += 'class = "not_done">'
+                output += 'class = "not_done"></a>';
                 output += '<br>' + playerSave.objects[index.id] + '</div>';
             }
             else {
-                output += 'class = "done">';
+                output += 'class = "done"></a>';
                 output += '<br><p>' + playerSave.objects[index.id] + '</p></div>';
             }
         }
@@ -495,13 +523,15 @@ window.onload = function() {
         for (let i = 0; i < 6; ++i) {
             output += '<div class="box">'
             var index = playerSave.artisan[i];
-            output += '<img src="./app/images/' + index.id + '_img.png"';
+            var wikiName = playerSave.objects[playerSave.Bundles[index.bundle][index.ex].id];
+            wikiName.split(' ').join('_');
+            output += '<a href="https://stardewvalleywiki.com/' + wikiName + '"><img src="./app/images/' + index.id + '_img.png"';
             if (playerSave.Bundles[index.bundle][index.ex].completed == false) {
-                output += 'class = "not_done">'
+                output += 'class = "not_done"></a>';
                 output += '<br>' + playerSave.objects[index.id] + '</div>';
             }
             else {
-                output += 'class = "done">';
+                output += 'class = "done"></a>';
                 output += '<br><p>' + playerSave.objects[index.id] + '</p></div>';
             }
         }
@@ -509,23 +539,25 @@ window.onload = function() {
 
         output += '<p>Bulletin Board:</p> <div id="grid">';
         if(playerSave.house < 1) {
-            output += '<div class="box"> <img src="./app/images/909_img.png" class = "not_done">'
+            output += '<div class="box"><a href="https://stardewvalleywiki.com/Farmhouse#Upgrades"><img src="./app/images/909_img.png" class = "not_done"></a>'
             output += '<br>' + playerSave.objects[909] + '</div>';
         }
         else {
-            output += '<div class="box"> <img src="./app/images/909_img.png" class = "done">'
+            output += '<div class="box"><a href="https://stardewvalleywiki.com/Farmhouse#Upgrades"><img src="./app/images/909_img.png" class = "done"></a>'
             output += '<br><p>' + playerSave.objects[909] + '</p></div>';
         }
         for (let i = 0; i < 5; ++i) {
             output += '<div class="box">'
             var index = playerSave.bulletin[i];
-            output += '<img src="./app/images/' + index.id + '_img.png"';
+            var wikiName = playerSave.objects[playerSave.Bundles[index.bundle][index.ex].id];
+            wikiName.split(' ').join('_');
+            output += '<a href="https://stardewvalleywiki.com/' + wikiName + '"><img src="./app/images/' + index.id + '_img.png"';
             if (playerSave.Bundles[index.bundle][index.ex].completed == false) {
-                output += 'class = "not_done">'
+                output += 'class = "not_done"></a>';
                 output += '<br>' + playerSave.objects[index.id] + '</div>';
             }
             else {
-                output += 'class = "done">';
+                output += 'class = "done"></a>';
                 output += '<br><p>' + playerSave.objects[index.id] + '</p></div>';
             }
         }
@@ -535,17 +567,43 @@ window.onload = function() {
         for (let i = 0; i < 4; ++i) {
             output += '<div class="box">'
             var index = playerSave.vault[i];
-            output += '<img src="./app/images/' + index.id + '_img.png"';
+            output += '<a href="https://stardewvalleywiki.com/Bundles#Vault"><img src="./app/images/' + index.id + '_img.png"';
             if (playerSave.Bundles[index.bundle][index.ex].completed == false) {
-                output += 'class = "not_done">'
+                output += 'class = "not_done"></a>';
                 output += '<br>' + playerSave.objects[index.id] + '</div>';
             }
             else {
-                output += 'class = "done">';
+                output += 'class = "done"></a>';
                 output += '<br><p>' + playerSave.objects[index.id] + '</p></div>';
             }
         }
         output += '</div>';
+        return output;
+    }
+
+    function rooms(playerSave) {
+        output = "";
+        output += '<h2>Community Center Rooms:</h2>';
+        for (var i = 0; i < 6; ++i) {
+            var index = playerSave.rooms[i];
+            output += '<h3>' + index.roomName + ':</h3><div class="bundles">';
+            output += '<div class="room">';
+            var wikiName = playerSave.rooms[i].roomName;
+            wikiName.split(' ').join('_');
+            output += '<a href="https://stardewvalleywiki.com/Bundles#' + wikiName + '"><img src="./app/images/' + i + '_room.png"></img></a>';
+            output += '</div><div class="buns">';
+            for (var j = 0; j < index.numBuns; ++ j) {
+                output += '<div class="bunbun">' + playerSave.Bundles[index.bundles[j]][0].bun + '<br>'; 
+                output += '<a href="https://stardewvalleywiki.com/Bundles#' + wikiName + '"><img src="./app/images/' + index.bundles[j] + '_bun.png"></img></a>';
+                var percent = Math.round((playerSave.Bundles[index.bundles[j]][0].have * 100) / playerSave.Bundles[index.bundles[j]][0].needed);
+                output += '<div class="bun_block">';
+                output += '<div id="progress_bun"> <div id ="bun_bar" style="width:' + percent + '%"></div> </div></div>';
+                output += '<div class = "per">' + percent + '%</div>';
+                output += '</div>';
+            }
+            output += '</div></div>';
+        }
+        output += '</div>'
         return output;
     }
 
@@ -624,9 +682,9 @@ window.onload = function() {
                 150: "Red Snapper",
                 156: "Ghostfish",
                 164: "Sandfish",
-                174: "Large Egg (White)",
-                178: "Hay x10",
-                182: "Large Egg (Brown)",
+                174: "Large Egg",
+                178: "Hay",
+                182: "Large Egg",
                 186: "Large Milk",
                 188: "Green Bean",
                 190: "Cauliflower",
@@ -639,7 +697,7 @@ window.onload = function() {
                 258: "Blueberry",
                 259: "Fiddlehead Fern",
                 260: "Hot Pepper",
-                262: "Wheat x10",
+                262: "Wheat",
                 266: "Red Cabbage",
                 270: "Corn",
                 272: "Eggplant",
@@ -653,8 +711,8 @@ window.onload = function() {
                 348: "Wine",
                 372: "Clam",
                 376: "Poppy",
-                388: "Wood x99",
-                390: "Stone x99",
+                388: "Wood",
+                390: "Stone",
                 392: "Nautilus Shell",
                 398: "Grape",
                 396: "Spice Berry",
@@ -694,7 +752,7 @@ window.onload = function() {
                 701: "Tilapia",
                 702: "Chub",
                 706: "Shad",
-                709: "Hardwood x10",
+                709: "Hardwood",
                 715: "Lobster",
                 716: "Crayfish",
                 717: "Crab",
@@ -709,17 +767,19 @@ window.onload = function() {
                 726: "Pine Tar",
                 734: "Woodskip",
                 766: "Slime",
-                767: "Bat Wings x10",
+                767: "Bat Wing",
                 768: "Solar Essence",
                 769: "Void Essence",
-                900: "Gold Quality Parsnips x5",
-                901: "Gold Quality Melons x5",
-                902: "Gold Quality Corn x5",
+                900: "Gold Quality Parsnips",
+                901: "Gold Quality Melons",
+                902: "Gold Quality Corn",
                 909: "Kitchen Upgrade",
                 910: "2,500g",
                 911: "5,000g",
                 912: "10,000g",
-                913: "25,000g"
+                913: "25,000g",
+                914: "Large White Egg",
+                915: "Large Brown Egg",
             }
 
             playerSave.Bundles = {
@@ -758,7 +818,7 @@ window.onload = function() {
             
             // info on each bundle, bundle numbers assigned by save file default
             playerSave.Bundles[0] = [
-                {needed: 4, have: 0, options: 4},
+                {bun: "Spring Crops", needed: 4, have: 0, options: 4},
                 {id: 24, completed: false},
                 {id: 188, completed: false},
                 {id: 190, completed: false},
@@ -766,7 +826,7 @@ window.onload = function() {
             ] // Spring Crops
 
             playerSave.Bundles[1] = [
-                {needed: 4, have: 0, options: 4},
+                {bun: "Summer Crops", needed: 4, have: 0, options: 4},
                 {id: 256, completed: false},
                 {id: 260, completed: false},
                 {id: 258, completed: false},
@@ -774,7 +834,7 @@ window.onload = function() {
             ] // Summer Crops
 
             playerSave.Bundles[2] = [
-                {needed: 4, have: 0, options: 4},
+                {bun: "Fall Crops", needed: 4, have: 0, options: 4},
                 {id: 270, completed: false},
                 {id: 272, completed: false},
                 {id: 276, completed: false},
@@ -782,7 +842,7 @@ window.onload = function() {
             ] // Fall Crops
 
             playerSave.Bundles[3] = [
-                {needed: 3, have: 0, options: 4},
+                {bun: "Quality Crops", needed: 3, have: 0, options: 4},
                 {id: 24, completed: false},
                 {id: 254, completed: false},
                 {id: 276, completed: false},
@@ -790,7 +850,7 @@ window.onload = function() {
             ] // Quality Crops
 
             playerSave.Bundles[4] = [
-                {needed: 5, have: 0, options: 6},
+                {bun: "Animal", needed: 5, have: 0, options: 6},
                 {id: 186, completed: false},
                 {id: 182, completed: false},
                 {id: 174, completed: false},
@@ -800,7 +860,7 @@ window.onload = function() {
             ] // Animal
 
             playerSave.Bundles[5] = [
-                {needed: 6, have: 0, options: 12},
+                {bun: "Artisan", needed: 6, have: 0, options: 12},
                 {id: 432, completed: false},
                 {id: 428, completed: false},
                 {id: 426, completed: false},
@@ -816,7 +876,7 @@ window.onload = function() {
             ] // Artisan
 
             playerSave.Bundles[6] = [
-                {needed: 4, have: 0, options: 4},
+                {bun: "River Fish", needed: 4, have: 0, options: 4},
                 {id: 145, completed: false},
                 {id: 143, completed: false},
                 {id: 706, completed: false},
@@ -824,7 +884,7 @@ window.onload = function() {
             ] // River Fish
 
             playerSave.Bundles[7] = [
-                {needed: 4, have: 0, options: 4},
+                {bun: "Lake Fish", needed: 4, have: 0, options: 4},
                 {id: 136, completed: false},
                 {id: 142, completed: false},
                 {id: 700, completed: false},
@@ -832,7 +892,7 @@ window.onload = function() {
             ] // Lake Fish
 
             playerSave.Bundles[8] = [
-                {needed: 4, have: 0, options: 4},
+                {bun: "Ocean Fish", needed: 4, have: 0, options: 4},
                 {id: 131, completed: false},
                 {id: 130, completed: false},
                 {id: 150, completed: false},
@@ -840,14 +900,14 @@ window.onload = function() {
             ] // Ocean Fish
 
             playerSave.Bundles[9] = [
-                {needed: 3, have: 0, options: 3},
+                {bun: "Night Fishing", needed: 3, have: 0, options: 3},
                 {id: 140, completed: false},
                 {id: 132, completed: false}, 
                 {id: 148, completed: false}
             ] // Night Fishing
 
             playerSave.Bundles[10] = [
-                {needed: 4, have: 0, options: 4},
+                {bun: "Specialty Fish", needed: 4, have: 0, options: 4},
                 {id: 128, completed: false},
                 {id: 156, completed: false},
                 {id: 164, completed: false},
@@ -855,7 +915,7 @@ window.onload = function() {
             ] // Specialty Fish
 
             playerSave.Bundles[11] = [
-                {needed: 5, have: 0, options: 10},
+                {bun: "Crab Pot", needed: 5, have: 0, options: 10},
                 {id: 715, completed: false},
                 {id: 716, completed: false},
                 {id: 717, completed: false},
@@ -869,7 +929,7 @@ window.onload = function() {
             ] // Crab Pot
 
             playerSave.Bundles[13] = [
-                {needed: 4, have: 0, options: 4},
+                {bun: "Spring Foraging", needed: 4, have: 0, options: 4},
                 {id: 16, completed: false},
                 {id: 18, completed: false}, 
                 {id: 20, completed: false},
@@ -877,14 +937,14 @@ window.onload = function() {
             ] // Spring Foraging
 
             playerSave.Bundles[14] = [
-                {needed: 3, have: 0, options: 3},
+                {bun: "Summer Foraging", needed: 3, have: 0, options: 3},
                 {id: 396, completed: false},
                 {id: 398, completed: false},
                 {id: 402, completed: false}
             ] // Summer Foraging
 
             playerSave.Bundles[15] = [
-                {needed: 4, have: 0, options: 4},
+                {bun: "Fall Foraging", needed: 4, have: 0, options: 4},
                 {id: 404, completed: false},
                 {id: 406, completed: false},
                 {id: 408, completed: false},
@@ -892,7 +952,7 @@ window.onload = function() {
             ] // Fall Foraging
 
             playerSave.Bundles[16] = [
-                {needed: 4, have: 0, options: 4},
+                {bun: "Winter Foraging", needed: 4, have: 0, options: 4},
                 {id: 412, completed: false},
                 {id: 414, completed: false},
                 {id: 416, completed: false},
@@ -900,7 +960,7 @@ window.onload = function() {
             ] // Winter Foraging
 
             playerSave.Bundles[17] = [
-                {needed: 4, have: 0, options: 4},
+                {bun: "Construction", needed: 4, have: 0, options: 4},
                 {id: 388, completed: false},
                 {id: 388, completed: false},
                 {id: 390, completed: false},
@@ -908,7 +968,7 @@ window.onload = function() {
             ] // Construction
 
             playerSave.Bundles[19] = [
-                {needed: 5, have: 0, options: 9},
+                {bun: "Exotic Foraging", needed: 5, have: 0, options: 9},
                 {id: 88, completed: false},
                 {id: 90, completed: false},
                 {id: 78, completed: false},
@@ -921,14 +981,14 @@ window.onload = function() {
             ] // Exotic Foraging
 
             playerSave.Bundles[20] = [
-                {needed: 3, have: 0, options: 3},
+                {bun: "Blacksmith's", needed: 3, have: 0, options: 3},
                 {id: 334, completed: false},
                 {id: 335, completed: false},
                 {id: 336, completed: false}
             ] // Blacksmith's
 
             playerSave.Bundles[21] = [
-                {needed: 4, have: 0, options: 4},
+                {bun: "Geologist's", needed: 4, have: 0, options: 4},
                 {id: 80, completed: false},
                 {id: 86, completed: false},
                 {id: 84, completed: false},
@@ -936,7 +996,7 @@ window.onload = function() {
             ] // Geologist's
 
             playerSave.Bundles[22] = [
-                {needed: 2, have: 0, options: 4},
+                {bun: "Adventuerer's", needed: 2, have: 0, options: 4},
                 {id: 766, completed: false},
                 {id: 767, completed: false},
                 {id: 768, completed: false},
@@ -944,27 +1004,27 @@ window.onload = function() {
             ] // Adventurer's
 
             playerSave.Bundles[23] = [
-                {needed: 1, have: 0, options: 1},
+                {bun: "2,500g", needed: 1, have: 0, options: 1},
                 {id: -1, completed: false}
             ] // 2,500g
 
             playerSave.Bundles[24] = [
-                {needed: 1, have: 0, options: 1},
+                {bun: "5,000g", needed: 1, have: 0, options: 1},
                 {id: -1, completed: false}
             ] // 5,000g
 
             playerSave.Bundles[25] = [
-                {needed: 1, have: 0, options: 1},
+                {bun: "10,000g", needed: 1, have: 0, options: 1},
                 {id: -1, completed: false}
             ] // 10,000g
 
             playerSave.Bundles[26] = [
-                {needed: 1, have: 0, options: 1},
+                {bun: "25,000g", needed: 1, have: 0, options: 1},
                 {id: -1, completed: false}
             ] // 25,000g
 
             playerSave.Bundles[31] = [
-                {needed: 6, have: 0, options: 6},
+                {bun: "Chef's", needed: 6, have: 0, options: 6},
                 {id: 724, completed: false},
                 {id: 259, completed: false},
                 {id: 430, completed: false},
@@ -974,7 +1034,7 @@ window.onload = function() {
             ] // Chef's
 
             playerSave.Bundles[32] = [
-                {needed: 4, have: 0, options: 4},
+                {bun: "Field Research", needed: 4, have: 0, options: 4},
                 {id: 422, completed: false},
                 {id: 392, completed: false},
                 {id: 702, completed: false},
@@ -982,7 +1042,7 @@ window.onload = function() {
             ] // Field Research
 
             playerSave.Bundles[33] = [
-                {needed: 4, have: 0, options: 4},
+                {bun: "Enchanter's", needed: 4, have: 0, options: 4},
                 {id: 725, completed: false},
                 {id: 348, completed: false},
                 {id: 446, completed: false},
@@ -990,7 +1050,7 @@ window.onload = function() {
             ] // Enchanter's
 
             playerSave.Bundles[34] = [
-                {needed: 6, have: 0, options: 6},
+                {bun: "Dye", needed: 6, have: 0, options: 6},
                 {id: 420, completed: false},
                 {id: 397, completed: false},
                 {id: 421, completed: false},
@@ -1000,21 +1060,21 @@ window.onload = function() {
             ]// Dye
 
             playerSave.Bundles[35] = [
-                {needed: 3, have: 0, options: 3},
+                {bun: "Fodder", needed: 3, have: 0, options: 3},
                 {id: 262, completed: false},
                 {id: 178, completed: false},
                 {id: 613, completed: false}
             ] // Fodder
 
             playerSave.Bundles[36] = [
-                {needed: 5, have: 0, options: 6},
+                {bun: "Missing", needed: 5, have: 0, options: 6},
                 {id: 348, completed: false},
                 {id: 807, completed: false},
                 {id: 74, completed: false},
                 {id: 454, completed: false},
                 {id: 795, completed: false},
                 {id: 445, completed: false}
-            ] // Abandoned Joja Mart (not used, but needed for easy parsing)
+            ] // Abandoned Joja Mart Missing Bundle (not used, but needed for easy parsing)
 
             playerSave.springFarm = [
                 {id: 24, bundle: 0, ex: 1, first: true},
@@ -1071,10 +1131,10 @@ window.onload = function() {
                 {id: 408, bundle: 15, ex: 3, first: true},
                 {id: 406, bundle: 15, ex: 2, first: true},
                 {id: 410, bundle: 15, ex: 4, first: true},
-                {id: 430, bundle: 15, ex: 4, first: true},
+                {id: 430, bundle: 31, ex: 3, first: true},
                 {id: 637, bundle: 33, ex: 4, first: true},
                 {id: 613, bundle: 35, ex: 3, first: true},
-                {id: 902, bundle: 31, ex: 3, first: true},
+                {id: 902, bundle: 3, ex: 4, first: true},
             ]
 
             playerSave.fallFish = [
@@ -1158,8 +1218,8 @@ window.onload = function() {
             ]
 
             playerSave.animals = [
-                {id: 174, bundle: 4, ex: 3, first: true},
-                {id: 182, bundle: 4, ex: 2, first: true},
+                {id: 914, bundle: 4, ex: 3, first: true},
+                {id: 915, bundle: 4, ex: 2, first: true},
                 {id: 186, bundle: 4, ex: 1, first: true},
                 {id: 442, bundle: 19, ex: 5, first: true},
                 {id: 440, bundle: 4, ex: 5, first: true},
@@ -1191,6 +1251,15 @@ window.onload = function() {
                 {id: 913, bundle: 26, ex: 1, first: true}
             ]
 
+            playerSave.rooms = [
+                {roomName: "Crafts Room", numBuns: 6, bundles: [13, 14, 15, 16, 17, 19]},
+                {roomName: "Pantry", numBuns: 6, bundles: [0, 1, 2, 3, 4, 5]},
+                {roomName: "Fish Tank", numBuns: 6, bundles: [6, 7, 8, 9, 10, 11]},
+                {roomName: "Boiler Room", numBuns: 3, bundles: [20, 21, 22]},
+                {roomName: "Bulletin Board", numBuns: 5, bundles: [31, 32, 33, 34, 35]},
+                {roomName: "Vault", numBuns: 4, bundles: [23, 24, 25, 26]}
+            ]
+
             readBundles(saveXML, playerSave);
             readBuildings(saveXML, playerSave);
             if (playerSave.Bundles[36][0].have > 0) playerSave.totalDonated -= playerSave.Bundles[36][0].have; // adjusting for The Missing Bundle
@@ -1198,28 +1267,28 @@ window.onload = function() {
             output += sum(playerSave);
             // TODO: present data by season, state whether player is on track based on playerSave.season
             if (playerSave.season === "spring") {
-                output += '<div class = "season" id="this_month">' + springCard(playerSave, "This Month:", false) + '</div>';
-                output += '<div class = "season" id="next">' + summerCard(playerSave, "Next Month:", true) + '</div>';
+                output += '<div class = "season" id="this_month"><h2>This Month:</h2>' + springCard(playerSave) + '</div>';
+                output += '<div class = "season" id="next"><h2>Next Month:</h2>' + summerCard(playerSave, true) + '</div>';
             }
             else if (playerSave.season === "summer") {
-                output += '<div class = "season" id="this_month">' + summerCard(playerSave, "This Month:", false) + '</div>';
-                output += '<div class = "season" id="next">' + fallCard(playerSave, "Next Month:", true) + '</div>';
+                output += '<div class = "season" id="this_month"><h2>This Month:</h2>' + summerCard(playerSave, false) + '</div>';
+                output += '<div class = "season" id="next"><h2>Next Month:</h2>' + fallCard(playerSave, true) + '</div>';
             }
             else if (playerSave.season === "fall") {
-                output += '<div class = "season" id="this_month">' + fallCard(playerSave, "This Month:", false) + '</div>';
-                output += '<div class = "season" id="next">' + winterCard(playerSave, "Next Month:", true) + '</div>';
+                output += '<div class = "season" id="this_month"><h2>This Month:</h2>' + fallCard(playerSave, false) + '</div>';
+                output += '<div class = "season" id="next"><h2>Next Month:</h2>' + winterCard(playerSave, true) + '</div>';
             }
             else if (playerSave.season === "winter") {     
-                output += '<div class = "season" id="this_month">' + winterCard(playerSave, "This Month:", false) + '</div>';
-                output += '<div class = "season" id="next">' + springCard(playerSave, "Next Month:", true) + '</div>';
+                output += '<div class = "season" id="this_month"><h2>This Month:</h2>' + winterCard(playerSave, false) + '</div>';
+                output += '<div class = "season" id="next"><h2>Next Month:</h2>' + springCard(playerSave) + '</div>';
             }
-
-            output += '<div class = "season" id="anytime">' + anytimeCard(playerSave) + '</div>';
-            output += '<div class = "season" id="check"> <h2 class = "full">Full Checklist:</h2>';
-            output += springCard(playerSave, "Spring:", true) + summerCard(playerSave, "Summer:", true) + fallCard(playerSave, "Fall:", true) + winterCard(playerSave, "Winter:", true);
+            output += '<div class = "season" id="anytime"><h2>Anytime:</h2>' + anytimeCard(playerSave) + '</div>';
+            output += '<div class = "season" id="check"> <h2>Full Checklist:</h2>';
+            output += '<h3>Spring:</h3>' + springCard(playerSave) + '<h3>Summer:</h3>' + summerCard(playerSave, true);
+            output += '<h3>Fall:</h3>' + fallCard(playerSave, true) + '<h3>Winter:</h3>' + winterCard(playerSave, "Winter:", true);
             output += '</div>';
-            // TODO: check if player is using remixed bundles (not supported with checklist)
-            // TODO: parse bundle data
+            output += '<div class = "season" id="rooms">' + rooms(playerSave) + '</div>';
+
             document.getElementById('out').innerHTML = output;
         };
         saveRead.readAsText(file);
