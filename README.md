@@ -2,7 +2,11 @@
 
 This app parses a [Stardew Valley](https://stardewvalley.net/) save file to create a checklist to help the player complete the Community Center within the first in-year game. This is a personal project. 
 
-Although recommended for use in player's first year, the checklist will continue to update if items are missed. For example, if a carp is not caught in Spring of Year 1, it will appear again in Summer and Fall until completed. The entire checklist for the year is available in the "Full Checklist" section. Completed items appear in black and white with their names crossed out. (This is for my color-blind dad.) Credit for creating this checklist goes to [Salmence](https://www.youtube.com/watch?v=hsPo9mRpMcs) on YouTube.
+Although recommended for use in player's first year, the checklist will continue to update if items are missed. For example, if a carp is not caught in Spring of Year 1, it will appear again in Summer and Fall until completed. 
+
+The entire checklist for the year is available in the "Full Checklist" section. Completed items appear in black and white with their names crossed out. (This is for my color-blind dad.) All objects are linked to the [Stardew Wiki](https://stardewvalleywiki.com/Stardew_Valley_Wiki).
+
+Credit for creating this checklist goes to [Salmence](https://www.youtube.com/watch?v=hsPo9mRpMcs) on YouTube.
 
 ## Features
 - Summary of current day, season, and player's progress with the Community Center
