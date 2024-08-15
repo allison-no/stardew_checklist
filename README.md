@@ -27,12 +27,12 @@ Notes about test files:
 - [test3](https://github.com/allison-no/stardew_checklist/tree/main/test/test3) is a Year 1 save in Spring with nothing in the Community Center completed. All of the checklist sections are marked as uncompleted and the player's "This Month" section is on track.
 
 ## Don't want to test the app? Check out these screenshots:
-test1 savefile (Year 1, Fall):
+### test1 savefile (Year 1, Fall):
 ![alt text](./app/images/screenshot1.png)
 ![alt text](./app/images/screenshot2.png)
 ![alt text](./app/images/screenshot3.png)
 
-test2 savefile (Year 2, Summer):
+### test2 savefile (Year 2, Summer):
 ![alt text](./app/images/screenshot4.png)
 ![alt text](./app/images/screenshot5.png)
 
