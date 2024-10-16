@@ -14,6 +14,7 @@ Credit for creating this checklist goes to [Salmence](https://www.youtube.com/wa
 - Checklist for player's next month
 - Checklist for items completed any month
 - Full checklist to complete the Community Center in a year
+- Links on every item to its page on the [Stardew Wiki](https://stardewvalleywiki.com/Stardew_Valley_Wiki). 
 - Summary of player's progress with all Community Center rooms and bundles
 
 ## Want to test the app?
